@@ -8,17 +8,35 @@ CREATE TABLE IF NOT EXISTS products
 (
     product_id CHAR(4) NOT NULL PRIMARY KEY,
     product_description VARCHAR(100) NOT NULL,
+    uom CHAR(3) NOT NULL, -- Unit of measurement
     stock NUMERIC(10,2) NOT NULL,
     last_price NUMERIC(10, 2) NOT NULL,
-    uom CHAR(3) NOT NULL -- Unit of measurement
-)
+    suggested_price NUMERIC(10, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS customers
+(
+    customer_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS orders
 (
     order_id SERIAL NOT NULL PRIMARY KEY,
     order_date DATE NOT NULL,
-    customer_id CHAR(4) NOT NULL,
-)
+    customer_id CHAR(4) NOT NULL REFERENCES customers(customer_id)
+);
+
+CREATE TABLE IF NOT EXISTS orders_details
+(
+    order_id SERIAL NOT NULL PRIMARY KEY,
+    product_id CHAR(4) NOT NULL REFERENCES products(product_id),
+    quantity NUMERIC(10,2) NOT NULL,
+    unit_price NUMERIC(10, 2) NOT NULL
+);
+
 
 CREATE TABLE IF NOT EXISTS users
 (

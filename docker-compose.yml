@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: pg_store_db
+    image: postgres
+    restart: always
+    environment:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_DB=my_store
+      - POSTGRES_USER=sandrosimon
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  
+  pgadmin:
+    container_name: pg_admin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "sandrosimonore@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin123"
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
