@@ -35,5 +35,5 @@ Pretty-format	\x
 docker cp ./sql/create_tables.sql pg_store_db:/sql
 
 ## Para ejecutar un script sql (dentro del container)
-psql -f /sql/create_tables.sql -h postgres -U sandrosimon -d store
+psql -f /sql/create_tables.sql -h postgres -U sandrosimon -d my_store
 
