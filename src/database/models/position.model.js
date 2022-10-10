@@ -5,17 +5,14 @@ const Position = sequelize.define(
 
     'positions',
     {
-        positionId: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            field: 'position_id'
-        },
-
         orderId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: 'order_id'
+            field: 'order_id',
+            references: {
+                model: 'orders',
+                key: 'id'
+            },
         },
         
         productId: {

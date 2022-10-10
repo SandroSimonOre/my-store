@@ -4,7 +4,7 @@ const usersRouter = require('./routes/users.route');
 const customersRouter = require('./routes/customers.route');
 const productsRouter = require('./routes/products.route');
 const ordersRouter = require('./routes/orders.route');
-const positionsRouter = require('./routes/positions.route');
+//const positionsRouter = require('./routes/positions.route');
 //const registerHandler = require('./handlers/register.handler');
 //const loginHandler = require('./handlers/login.handler');
 //const validateAccessToken = require('./middlewares/validateAccessToken');
@@ -20,6 +20,6 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/customers', customersRouter);
 app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/orders', ordersRouter);
-app.use('/api/v1/positions', positionsRouter);
+//app.use('/api/v1/positions', positionsRouter);
 
 module.exports = app;

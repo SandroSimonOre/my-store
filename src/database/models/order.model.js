@@ -1,21 +1,22 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./../sequelize');
+const Position = require('./position.model');
 
 const Order = sequelize.define(
 
     'orders',
     {
-        orderId: {
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            field: 'order_id'
+            field: 'id'
         },
 
-        orderDate: {
+        date: {
             type: DataTypes.DATE,
             allowNull: false,
-            field: 'order_date'
+            field: 'date'
         },
 
         customerId: {
@@ -37,5 +38,15 @@ const Order = sequelize.define(
         tableName: 'orders'
     }
 )
+
+Order.hasMany(Position, {
+    foreignKey: 'orderId',
+    sourceKey: 'id'
+});
+
+Position.belongsTo(Order, {
+    foreignKey: 'orderId',
+    sourceKey: 'id'
+});
 
 module.exports = Order;

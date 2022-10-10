@@ -1,11 +1,15 @@
-const Order = require('../database/models/order.model')
-
+const Order = require('../database/models/order.model');
+const Position = require('../database/models/position.model');
 const getAllOrders = async (req, res) => {
     
     try {
-        const orders = await Order.findAll();
+        const orders = await Order.findAll({include : Position});
+        
+        //const orders = await Order.findAll();
+        //console.log('trying')
         res.json(orders)    
     } catch (error) {
+        
         return res.status(500).json({message: error.message})
     }
 }
@@ -38,8 +42,11 @@ const createOrder =  async (req, res) => {
             salespersonId,
         });
         res.json({newOrder})
+    
     } catch (error) {
+    
         return res.status(500).json({message: error.message})
+    
     }  
 
 }
@@ -56,12 +63,15 @@ const updateOrder = async (req, res) => {
         res.json(order);
 
     } catch (error) {
+    
         return res.status(500).json({message: error.message})
+    
     }
 
 }
 
 const deleteOrder = async (req, res) => {
+    
     const { orderId } = req.params;
         
     try {
@@ -69,8 +79,11 @@ const deleteOrder = async (req, res) => {
             where: { orderId }
         });
         return res.sendStatus(204);
+    
     } catch (error) {
+    
         return res.status(500).json({message: error.message})
+    
     }
 }
 

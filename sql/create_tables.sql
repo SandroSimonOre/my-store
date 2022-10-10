@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS products
 (
-    product_id CHAR(4) NOT NULL PRIMARY KEY,
-    product_description VARCHAR(100) NOT NULL,
+    id CHAR(4) NOT NULL PRIMARY KEY,
+    description VARCHAR(100) NOT NULL,
     uom CHAR(3) NOT NULL, -- Unit of measurement
     -- stock NUMERIC(10,2) NOT NULL,
     stock NUMERIC(10, 2) DEFAULT 0.00,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS products
 
 CREATE TABLE IF NOT EXISTS customers
 (
-    customer_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    id VARCHAR(10) NOT NULL PRIMARY KEY,
     email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS customers
 
 CREATE TABLE IF NOT EXISTS users
 (
-    user_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    id VARCHAR(10) NOT NULL PRIMARY KEY,
     role VARCHAR(20) NOT NULL,
     password VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
@@ -36,19 +36,20 @@ CREATE TABLE IF NOT EXISTS users
 
 CREATE TABLE IF NOT EXISTS orders
 (
-    order_id SERIAL NOT NULL PRIMARY KEY,
-    order_date DATE NOT NULL,
-    customer_id VARCHAR(10) NOT NULL REFERENCES customers(customer_id),
-    salesperson_id VARCHAR(10) NOT NULL REFERENCES users(user_id)
+    id SERIAL NOT NULL PRIMARY KEY,
+    date DATE NOT NULL,
+    customer_id VARCHAR(10) NOT NULL REFERENCES customers(id),
+    salesperson_id VARCHAR(10) NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS positions
 (
-    position_id SERIAL NOT NULL PRIMARY KEY,
-    order_id INTEGER NOT NULL REFERENCES orders(order_id),
-    product_id CHAR(4) NOT NULL REFERENCES products(product_id),
+
+    order_id INTEGER REFERENCES orders(id),
+    product_id CHAR(4) REFERENCES products(id),
     quantity NUMERIC(10,2) NOT NULL,
-    unit_price NUMERIC(10, 2) NOT NULL
+    unit_price NUMERIC(10, 2) NOT NULL,
+    PRIMARY KEY (order_id, product_id)
 );
 
 
