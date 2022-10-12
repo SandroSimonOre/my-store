@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS orders
     salesperson_id VARCHAR(10) NOT NULL REFERENCES users(id)
 );
 
-CREATE TABLE IF NOT EXISTS positions
+CREATE TABLE IF NOT EXISTS items
 (
 
     order_id INTEGER REFERENCES orders(id),

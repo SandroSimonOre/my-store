@@ -29,7 +29,7 @@ VALUES
 ('2022-10-05', '43844573', '22099136');
 
 -- POPULATING POSITIONS TABLE
-INSERT INTO positions( order_id, product_id, quantity, unit_price) 
+INSERT INTO items( order_id, product_id, quantity, unit_price) 
 VALUES
 (1, 'A100', 5, 4.5),
 (1, 'A300', 8, 5.6),

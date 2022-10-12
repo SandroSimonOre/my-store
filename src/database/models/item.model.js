@@ -1,13 +1,13 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./../sequelize');
+const sequelize = require('../sequelize');
 
-const Position = sequelize.define(
+const Item = sequelize.define(
 
-    'positions',
+    'items',
     {
         orderId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            primaryKey: true,
             field: 'order_id',
             references: {
                 model: 'orders',
@@ -17,7 +17,7 @@ const Position = sequelize.define(
         
         productId: {
             type: DataTypes.STRING(4),
-            allowNull: false,
+            primaryKey: true,
             field: 'product_id'
         },
 
@@ -37,8 +37,8 @@ const Position = sequelize.define(
 
     {
         timestamps: false,
-        tableName: 'positions'
+        tableName: 'items'
     }
 )
 
-module.exports = Position;
+module.exports = Item;

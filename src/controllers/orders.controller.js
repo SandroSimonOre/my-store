@@ -1,66 +1,100 @@
 const Order = require('../database/models/order.model');
-const Position = require('../database/models/position.model');
+const Item = require('../database/models/item.model');
+
+// GET ALL ORDERS
 const getAllOrders = async (req, res) => {
     
     try {
-        const orders = await Order.findAll({include : Position});
-        
-        //const orders = await Order.findAll();
-        //console.log('trying')
+        const orders = await Order.findAll({include : Item});
         res.json(orders)    
     } catch (error) {
-        
         return res.status(500).json({message: error.message})
     }
 }
 
+// GET ONE ORDER
 const getOneOrder = async (req, res) => {
     
-    const { orderId } = req.params;
+    const { id } = req.params;
     try {
-        const order = await Order.findByPk(orderId)
+        const order = await Order.findByPk(id, {include: Item})
         res.json(order)
     } catch (error) {
         return res.status(500).json({message: error.message})
     }
 }
 
+// CREATE ONE ORDER
 const createOrder =  async (req, res) => {
-    
+
+    const { 
+        id,
+        date,
+        customerId,
+        salespersonId,
+        items
+    } = req.body;
+
+    const itemsWithId = items.map( e => {
+        return { id, ...e}
+    });
+
     try {
-        const { 
-            orderId,
-            orderDate,
-            customerId,
-            salespersonId,
-        } = req.body;
         
         const newOrder = await Order.create({
-            orderId,
-            orderDate,
+            id,
+            date,
             customerId,
             salespersonId,
-        });
+            items: itemsWithId
+        }, {include : Item});
+        
         res.json({newOrder})
     
     } catch (error) {
     
         return res.status(500).json({message: error.message})
     
-    }  
-
+    }
 }
 
+// UPDATE ONE ORDER
 const updateOrder = async (req, res) => {
     
-    const { orderId } = req.params;
+    const { id } = req.params;
+
+    const {
+        date,
+        customerId,
+        salespersonId,
+        items
+    } = req.body;
 
     try {
-        const order = await Order.findByPk(orderId);
+
+        await Order.update(
+            {
+                date,
+                customerId,
+                salespersonId,
+            },
+            {
+                where: { id }
+            }
+        );
+
+        await Item.destroy( {where: { orderId: id }} );
+
+        const itemsWithId = items.map( item => {
+            return { orderId:id, ...item }
+        });
+
+        await itemsWithId.forEach(item => {
+            Item.create(item);
+        });
         
-        order.set(req.body);
-        await order.save();
-        res.json(order);
+        //const newOrder = await Order.findByPk(id, {include: Item})
+        res.json(await Order.findByPk(id, {include: Item}));
 
     } catch (error) {
     
@@ -70,13 +104,19 @@ const updateOrder = async (req, res) => {
 
 }
 
+// REMOVE AN ORDER
 const deleteOrder = async (req, res) => {
     
-    const { orderId } = req.params;
-        
+    const { id } = req.params;
+    
     try {
-        const order = await Order.destroy({
-            where: { orderId }
+        
+        await Item.destroy({
+            where: { orderId : id }  
+        })
+        
+        await Order.destroy({
+            where: { id }
         });
         return res.sendStatus(204);
     

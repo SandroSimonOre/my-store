@@ -5,12 +5,12 @@ const ordersController = require('../controllers/orders.controller')
 
 router.get('/', ordersController.getAllOrders)
 
-router.get('/:orderId', ordersController.getOneOrder)
+router.get('/:id', ordersController.getOneOrder)
 
 router.post('/', ordersController.createOrder)
 
-router.put('/:orderId', ordersController.updateOrder)
+router.put('/:id', ordersController.updateOrder)
 
-router.delete('/:orderId', ordersController.deleteOrder)
+router.delete('/:id', ordersController.deleteOrder)
 
 module.exports = router;
