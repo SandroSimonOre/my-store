@@ -63,31 +63,20 @@ const updateOrder = async (req, res) => {
     
     const { id } = req.params;
 
-    const {
-        date,
-        customerId,
-        salespersonId,
-        items
-    } = req.body;
+    const { date, customerId, salespersonId, items } = req.body;
 
+    const itemsWithId = items.map( item => {
+        return { orderId:id, ...item }
+    });
+    
     try {
 
         await Order.update(
-            {
-                date,
-                customerId,
-                salespersonId,
-            },
-            {
-                where: { id }
-            }
+            { date, customerId, salespersonId },
+            { where: { id } }
         );
 
         await Item.destroy( {where: { orderId: id }} );
-
-        const itemsWithId = items.map( item => {
-            return { orderId:id, ...item }
-        });
 
         await itemsWithId.forEach(item => {
             Item.create(item);
