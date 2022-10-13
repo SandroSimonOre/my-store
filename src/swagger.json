@@ -1,0 +1,983 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "My Store",
+      "description": "This is a documentation sample made with OpenAPI 3.0 specification.",
+      "contact": {
+        "name": "Sandro Simón",
+        "email": "hello@sandrosimon.com"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "/api/v1",
+        "description": "Server"
+      }
+      
+    ],
+    "tags": [
+      {
+        "name": "Account",
+        "description": "Operations about account"
+      },
+      {
+        "name": "User",
+        "description": "Operations about users"
+      },
+      {
+        "name": "Travel",
+        "description": "Operations about travels"
+      },
+      {
+        "name": "Transaction",
+        "description": "Operations about transactions"
+      }
+    ],
+    "paths": {
+      "/accounts": {
+        "get": {
+          "tags": [
+            "Account"
+          ],
+          "summary": "Get all accounts",
+          "description": "Get all accounts",
+          "operationId": "getAllAccounts",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/Account"
+                    }  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Account"
+          ],
+          "summary": "Add a new account to the database",
+          "description": "Add a new account to the database",
+          "operationId": "createOneAccount",
+          "requestBody": {
+            "description": "Create a new account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Account"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Account"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }      
+      },
+      "/accounts/{accountCode}": {
+        "get": {
+          "tags": [
+            "Account"
+          ],
+          "summary": "Find account by code",
+          "description": "Returns an account",
+          "operationId": "getOneAccount",
+          "parameters": [
+            {
+              "name": "accountCode",
+              "in": "path",
+              "required": true,
+              "description": "Code of the account to return",
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9]{8}$"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Account"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Account"
+          ],
+          "summary": "Update an existing account",
+          "description": "Update an existing account by Id",
+          "operationId": "updateOneAccount",
+          "parameters": [
+            {
+              "name": "accountCode",
+              "in": "path",
+              "description": "Code of the account to return",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9]{8}$"
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent account in the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accountName": {
+                      "type": "string",
+                      "example":"GENERAL EXPENSES"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Account"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid account code supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+          
+        },
+        "delete": {
+          "tags": [
+            "Account"
+          ],
+          "summary": "Deletes an account",
+          "description": "delete an account",
+          "operationId": "deleteOneAccount",
+          "parameters": [
+            {
+              "name": "accountCode",
+              "in": "path",
+              "description": "Account code to delete",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern":"^[0-9]{8}$"
+              }
+            }
+          ],
+          "responses": {
+            "204":{
+              "description": "The account was deleted successfully."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          }
+        }
+        
+      },
+      "/users": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Get all users",
+          "description": "Get all users",
+          "operationId": "getAllUsers",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/User"
+                    }  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Add a new user to the database",
+          "description": "Add a new user to the database",
+          "operationId": "createOneUser",
+          "requestBody": {
+            "description": "Create a new user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/User"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/User"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }      
+      },
+      "/users/{userId}": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Find a user by id",
+          "description": "Returns an user",
+          "operationId": "getOneUser",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "description": "Code of the account to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Update an existing user",
+          "description": "Update an existing user by Id",
+          "operationId": "updateOneUser",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "description": "Code of the user to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent account in the store",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "role": {
+                      "type": "string",
+                      "example":"admin"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example":"123456"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example":"user@domain.com"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example":"Lizbeth"
+                    },
+                    "lastName": {
+                      "type": "string",
+                      "example":"Galindo"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid account code supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+          
+        },
+        "delete": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Deletes an account",
+          "description": "delete an account",
+          "operationId": "deleteOneAccount",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "description": "Account code to delete",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204":{
+              "description": "The account was deleted successfully."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          }
+        }
+      },
+      "/travels": {
+        "get": {
+          "tags": [
+            "Travel"
+          ],
+          "summary": "Get all the travels",
+          "description": "Get all travels",
+          "operationId": "getAllTravels",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/Travel"
+                    }  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Travel"
+          ],
+          "summary": "Add a new travel to the database",
+          "description": "Add a new travel to the database",
+          "operationId": "createOneTravel",
+          "requestBody": {
+            "description": "Create a new travel",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Travel"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Travel"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }      
+      },
+      "/travels/{travelId}": {
+        "get": {
+          "tags": [
+            "Travel"
+          ],
+          "summary": "Find a travel by id",
+          "description": "Returns a travel",
+          "operationId": "getOneTravel",
+          "parameters": [
+            {
+              "name": "travelId",
+              "in": "path",
+              "description": "Code of the account to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Travel"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Travel"
+          ],
+          "summary": "Update an existing travel",
+          "description": "Update an existing travel by Id",
+          "operationId": "updateOneTravel",
+          "parameters": [
+            {
+              "name": "travelId",
+              "in": "path",
+              "description": "Code of the travel to return",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent travel in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "example":"admin"
+                    },
+                    "submitDate": {
+                      "type": "string",
+                      "example":"2022-06-15"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example":"USD"
+                    },
+                    "totalAmount": {
+                      "type": "number",
+                      "example":25
+                    },
+                    "destination": {
+                      "type": "string",
+                      "example":"CUSCO"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Travel"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid account code supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+          
+        },
+        "delete": {
+          "tags": [
+            "Travel"
+          ],
+          "summary": "Deletes an account",
+          "description": "delete an account",
+          "operationId": "deleteOneAccount",
+          "parameters": [
+            {
+              "name": "travelId",
+              "in": "path",
+              "description": "Account code to delete",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "204":{
+              "description": "The account was deleted successfully."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          }
+        }
+      },
+      "/transactions": {
+        "get": {
+          "tags": [
+            "Transaction"
+          ],
+          "summary": "Get all the transactions",
+          "description": "Get all transactions",
+          "operationId": "getAllTransactions",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/Transaction"
+                    }  
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "Transaction"
+          ],
+          "summary": "Add a new transaction to the database",
+          "description": "Add a new transaction to the database",
+          "operationId": "createOneTransaction",
+          "requestBody": {
+            "description": "Create a new transaction",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "travelId": {
+                      "type": "string",
+                      "example":"2022080106"
+                    },
+                    "transDate": {
+                      "type": "string",
+                      "example":"2022-06-15"
+                    },
+                    "docType": {
+                      "type": "string",
+                      "example":"004"
+                    },
+                    "docNumber": {
+                      "type": "number",
+                      "example":"00652"
+                    },
+                    "accountCode": {
+                      "type": "string",
+                      "example":"65000000"
+                    },
+                    "transDescription": {
+                      "type": "string",
+                      "example":"HOSPEDAJE"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "format":"float",
+                      "example": 52
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Transaction"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }      
+      },
+      "/transactions/{transactionId}": {
+        "get": {
+          "tags": [
+            "Transaction"
+          ],
+          "summary": "Find a transaction by id",
+          "description": "Returns a transaction",
+          "operationId": "getOneTransaction",
+          "parameters": [
+            {
+              "name": "transactionId",
+              "in": "path",
+              "description": "Code of the account to return",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format":"int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Transaction"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "Transaction"
+          ],
+          "summary": "Update an existing transaction",
+          "description": "Update an existing transaction by Id",
+          "operationId": "updateOneTransaction",
+          "parameters": [
+            {
+              "name": "transactionId",
+              "in": "path",
+              "description": "Code of the transaction to return",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format":"int64",
+                "example":88
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent transaction in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "travelId": {
+                      "type": "string",
+                      "example":"2022080106"
+                    },
+                    "transDate": {
+                      "type": "string",
+                      "example":"2022-06-15"
+                    },
+                    "docType": {
+                      "type": "string",
+                      "example":"004"
+                    },
+                    "docNumber": {
+                      "type": "number",
+                      "example":"00652"
+                    },
+                    "accountCode": {
+                      "type": "string",
+                      "example":"65000000"
+                    },
+                    "transDescription": {
+                      "type": "string",
+                      "example":"HOSPEDAJE"
+                    },
+                    "amount":
+                    {
+                      "type":"number",
+                      "format":"float",
+                      "example": 68.00
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid transaction Id supplied"
+            },
+            "404": {
+              "description": "Transaction not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          }
+          
+        },
+        "delete": {
+          "tags": [
+            "Transaction"
+          ],
+          "summary": "Deletes a transaction.",
+          "description": "delete a transaction",
+          "operationId": "deleteOneTransaction",
+          "parameters": [
+            {
+              "name": "transactionId",
+              "in": "path",
+              "description": "Transaction id to delete",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format":"int64"
+              }
+            }
+          ],
+          "responses": {
+            "204":{
+              "description": "The transaction was deleted successfully."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          }
+        }
+      }  
+    },
+    "components": {
+      "schemas": {
+        "Account": {
+          "type": "object",
+          "properties": {
+            "accountCode": {
+              "type": "string",
+              "example": "95000000"
+            },
+            "accountName": {
+              "type": "string",
+              "example": "SELLING EXPENSES"
+            }
+          }
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "example": "lgalindo"
+            },
+            "role": {
+              "type": "string",
+              "example": "admin"
+            },
+            "password": {
+              "type": "string",
+              "example": "admin123"
+            },
+            "email": {
+              "type": "string",
+              "example": "admin@database.com"
+            },
+            "firstName": {
+              "type": "string",
+              "example": "Lizbeth"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "Galindo"
+            }
+          }
+        },
+        "Travel": {
+          "type": "object",
+          "properties": {
+            "travelId": {
+              "type": "string",
+              "example": "2022080301"
+            },
+            "userId": {
+              "type": "string",
+              "example": "lgalindo"
+            },
+            "submitDate": {
+              "type": "string",
+              "example": "2022-02-18"
+            },
+            "currency": {
+              "type": "string",
+              "example": "PEN"
+            },
+            "totalAmount": {
+              "type": "number",
+              "format": "float",
+              "example": 10.00
+            },
+            "destination": {
+              "type": "string",
+              "example": "Arequipa"
+            }
+          }
+        },
+        "Transaction": {
+          "type": "object",
+          "properties": {
+            "transactionId": {
+              "type": "integer",
+              "format":"int64",
+              "example": 1
+            },
+            "travelId": {
+              "type": "string",
+              "example": "2022080301"
+            },
+            "docType": {
+              "type": "string",
+              "example": "003"
+            },
+            "docNumber": {
+              "type": "string",
+              "example": "526852"
+            },
+            "accountCode": {
+              "type": "string",
+              "example": "65000000"
+            },
+            "transDescription": {
+              "type": "string",
+              "example": "TAXI AGENCIA"
+            },
+            "amount": {
+              "type": "number",
+              "format":"float",
+              "example": 25.00
+            }
+          }
+        }
+      }
+    }  
+  }

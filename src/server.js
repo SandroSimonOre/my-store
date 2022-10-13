@@ -1,5 +1,4 @@
 const {config} = require('./config');
-//const sequelize = require('./database/sequelize') 
 
 const app = require('./app');
 async function main() {
