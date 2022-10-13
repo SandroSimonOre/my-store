@@ -4,7 +4,7 @@ const sequelize = require('./../sequelize');
 const User = sequelize.define(
     'users',
     {
-        userId: {
+        id: {
             type: DataTypes.STRING(10),
             primaryKey: true,
             allowNull: false,

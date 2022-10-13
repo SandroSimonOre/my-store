@@ -5,14 +5,14 @@ const Product = sequelize.define(
 
     'products',
     {
-        productId: {
+        id: {
             type: DataTypes.STRING(4),
             primaryKey: true,
             allowNull: false,
             field: 'id'
         },
 
-        productDescription: {
+        description: {
             type: DataTypes.STRING(100),
             allowNull: false,
             field: 'description'

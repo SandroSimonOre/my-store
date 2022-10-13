@@ -12,9 +12,9 @@ const getAllCustomers = async (req, res) => {
 
 const getOneCustomer = async (req, res) => {
     
-    const { customerId } = req.params;
+    const { id } = req.params;
     try {
-        const customer = await Customer.findByPk(customerId)
+        const customer = await Customer.findByPk(id)
         res.json(customer)
     } catch (error) {
         return res.status(500).json({message: error.message})
@@ -24,19 +24,9 @@ const getOneCustomer = async (req, res) => {
 const createCustomer =  async (req, res) => {
     
     try {
-        const { 
-            customerId,
-            email,
-            firstName,
-            lastName,
-        } = req.body;
+        const { id, email, firstName, lastName } = req.body;
         
-        const newCustomer = await Customer.create({
-            customerId,
-            email,
-            firstName,
-            lastName,
-        });
+        const newCustomer = await Customer.create({ id, email, firstName, lastName });
         res.json({newCustomer})
     } catch (error) {
         return res.status(500).json({message: error.message})
@@ -46,10 +36,10 @@ const createCustomer =  async (req, res) => {
 
 const updateCustomer = async (req, res) => {
     
-    const { customerId } = req.params;
+    const { id } = req.params;
 
     try {
-        const customer = await Customer.findByPk(customerId);
+        const customer = await Customer.findByPk(id);
         
         customer.set(req.body);
         await customer.save();
@@ -62,11 +52,11 @@ const updateCustomer = async (req, res) => {
 }
 
 const deleteCustomer = async (req, res) => {
-    const { customerId } = req.params;
+    const { id } = req.params;
         
     try {
         const customer = await Customer.destroy({
-            where: { customerId }
+            where: { id }
         });
         return res.sendStatus(204);
     } catch (error) {

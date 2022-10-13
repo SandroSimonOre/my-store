@@ -11,9 +11,9 @@ const getAllProducts = async (req, res) => {
 
 const getOneProduct = async (req, res) => {
     
-    const { productId } = req.params;
+    const { id } = req.params;
     try {
-        const product = await Product.findByPk(productId)
+        const product = await Product.findByPk(id)
         res.json(product)
     } catch (error) {
         return res.status(500).json({message: error.message})
@@ -23,23 +23,9 @@ const getOneProduct = async (req, res) => {
 const createProduct =  async (req, res) => {
     
     try {
-        const { 
-            productId,
-            productDescription,
-            uom,
-            stock,
-            lastPrice,
-            suggestedPrice
-        } = req.body;
+        const { id, description, uom, stock, lastPrice, suggestedPrice } = req.body;
         
-        const newProduct = await Product.create({
-            productId,
-            productDescription,
-            uom,
-            stock,
-            lastPrice,
-            suggestedPrice
-        });
+        const newProduct = await Product.create({ id, description, uom, stock, lastPrice, suggestedPrice });
         res.json({newProduct})
     } catch (error) {
         return res.status(500).json({message: error.message})
@@ -49,10 +35,10 @@ const createProduct =  async (req, res) => {
 
 const updateProduct = async (req, res) => {
     
-    const { productId } = req.params;
+    const { id } = req.params;
 
     try {
-        const product = await Product.findByPk(productId);
+        const product = await Product.findByPk(id);
         
         product.set(req.body);
         await product.save();
@@ -65,11 +51,11 @@ const updateProduct = async (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-    const { productId } = req.params;
+    const { id } = req.params;
         
     try {
         const product = await Product.destroy({
-            where: { productId }
+            where: { id }
         });
         return res.sendStatus(204);
     } catch (error) {

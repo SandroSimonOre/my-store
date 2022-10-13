@@ -5,12 +5,12 @@ const productsController = require('../controllers/products.controller')
 
 router.get('/', productsController.getAllProducts)
 
-router.get('/:productId', productsController.getOneProduct)
+router.get('/:id', productsController.getOneProduct)
 
 router.post('/', productsController.createProduct)
 
-router.put('/:productId', productsController.updateProduct)
+router.put('/:id', productsController.updateProduct)
 
-router.delete('/:productId', productsController.deleteProduct)
+router.delete('/:id', productsController.deleteProduct)
 
 module.exports = router;

@@ -5,12 +5,12 @@ const customersController = require('../controllers/customers.controller')
 
 router.get('/', customersController.getAllCustomers)
 
-router.get('/:customerId', customersController.getOneCustomer)
+router.get('/:id', customersController.getOneCustomer)
 
 router.post('/', customersController.createCustomer)
 
-router.put('/:customerId', customersController.updateCustomer)
+router.put('/:id', customersController.updateCustomer)
 
-router.delete('/:customerId', customersController.deleteCustomer)
+router.delete('/:id', customersController.deleteCustomer)
 
 module.exports = router;

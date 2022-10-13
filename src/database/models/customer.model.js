@@ -4,7 +4,7 @@ const sequelize = require('./../sequelize');
 const Customer = sequelize.define(
     'customers',
     {
-        customerId: {
+        id: {
             type: DataTypes.STRING(10),
             primaryKey: true,
             allowNull: false,
