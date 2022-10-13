@@ -9,13 +9,13 @@ const Product = sequelize.define(
             type: DataTypes.STRING(4),
             primaryKey: true,
             allowNull: false,
-            field: 'product_id'
+            field: 'id'
         },
 
         productDescription: {
             type: DataTypes.STRING(100),
             allowNull: false,
-            field: 'product_description'
+            field: 'description'
         },
 
         uom: {

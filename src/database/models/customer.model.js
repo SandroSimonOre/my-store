@@ -8,7 +8,7 @@ const Customer = sequelize.define(
             type: DataTypes.STRING(10),
             primaryKey: true,
             allowNull: false,
-            field: 'customer_id'
+            field: 'id'
         },
 
         email: {

@@ -8,7 +8,7 @@ const User = sequelize.define(
             type: DataTypes.STRING(10),
             primaryKey: true,
             allowNull: false,
-            field: 'user_id'
+            field: 'id'
         },
 
         role: {
