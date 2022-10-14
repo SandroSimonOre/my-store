@@ -1,5 +1,5 @@
-const Order = require('../database/models/order.model');
-const Item = require('../database/models/item.model');
+const Order = require('../models/order.model');
+const Item = require('../models/item.model');
 const sequelize = require('../database/sequelize');
 
 // GET ALL ORDERS

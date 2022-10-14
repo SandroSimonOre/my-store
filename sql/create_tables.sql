@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS users
 (
     id VARCHAR(10) NOT NULL PRIMARY KEY,
     role VARCHAR(20) NOT NULL,
-    password VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
+    password VARCHAR(100) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL
 );
