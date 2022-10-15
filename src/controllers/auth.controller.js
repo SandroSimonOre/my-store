@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const cookie = require('cookie');
 const User = require('./../models/user.model');
 const { config } = require('./../config');
 
@@ -21,25 +20,20 @@ const handleLogin = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24
     }, config.jwtSecret);
 
-    const tokenSerialized = cookie.serialize('user_token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 1000 * 60 * 60 * 24,
-        path: '/'
-    });
 
-    res.setHeader('Set-cookie', tokenSerialized);
-    return res.status(200).json({message : 'Login succesful'});
-
+    return res.status(200).json({success : true, token});
+    /*
+    res.header('Authorization', token).json(
+        { 
+            success : true,
+            token
+        }
+    )
+    */
 }
 
-const handleLogout = async (req, res) => {
-    const { myToken } = req.cookies;
-    console.log(myToken); 
-}
+
 
 module.exports = {
     handleLogin,
-    handleLogout
 }

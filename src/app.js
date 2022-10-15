@@ -9,8 +9,11 @@ const ordersRouter = require('./routes/orders.route');
 
 //const validateAccessToken = require('./middlewares/validateAccessToken');
 
+
 const swaggerDoc = require('./swagger.json')
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json());
 
@@ -20,6 +23,6 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/customers', customersRouter);
 app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/orders', ordersRouter);
-app.use('/', (req, res) => res.sendFile(path.resolve(__dirname,  'index.html')));
+//app.use('/', (req, res) => res.sendFile(path.resolve(__dirname,  'index.html')));
 
 module.exports = app;
