@@ -13,7 +13,8 @@ const User = sequelize.define(
 
         role: {
             type: DataTypes.STRING(20),
-            allowNull: false
+            allowNull: false,
+            validate: {isIn: {args:[['admin', 'seller', 'guest']]}}
         },
 
         password: {

@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS products
 CREATE TABLE IF NOT EXISTS users
 (
     id VARCHAR(10) PRIMARY KEY,
-    role VARCHAR(20) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK ( role IN ('admin', 'seller', 'guest') ),
     password VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
     first_name VARCHAR(20) NOT NULL,

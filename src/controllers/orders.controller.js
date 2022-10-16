@@ -18,10 +18,10 @@ const getOneOrder = async (req, res) => {
     
     const { id } = req.params;
     try {
-        const order = await Order.findByPk(id, {include: Item})
-        res.json(order)
+        const order = await Order.findByPk(id, {include: Item});
+        res.json(order);
     } catch (error) {
-        return res.status(500).json({message: error.message})
+        return res.status(500).json({message: error.message});
     }
 }
 
@@ -57,9 +57,9 @@ const createOrder =  async (req, res) => {
 const updateOrder = async (req, res) => {
     
     const { id } = req.params;
+    const { sub, role } = req.userInfo;
 
     const { date, customerId, salespersonId, items } = req.body;
-
     const itemsWithId = items.map( item => {
         return { orderId:id, ...item }
     });
@@ -67,20 +67,26 @@ const updateOrder = async (req, res) => {
     const t = await sequelize.transaction();
     try {
 
-        await Order.update(
-            { date, customerId, salespersonId },
-            { where: { id }, transaction: t }
-        );
-
-        await Item.destroy( {where: { orderId: id }, transaction : t });
-
-        for (let i = 0; i < itemsWithId.length; i++ ) {
-            await Item.create(itemsWithId[i], {transaction: t} );
+        const order = await Order.findByPk(id);
+        if (order.salespersonId === sub || role === 'admin') {
+            await Order.update(
+                { date, customerId, salespersonId },
+                { where: { id }, transaction: t }
+            );
+    
+            await Item.destroy( {where: { orderId: id }, transaction : t });
+    
+            for (let i = 0; i < itemsWithId.length; i++ ) {
+                await Item.create(itemsWithId[i], {transaction: t} );
+            }
+            
+            await t.commit();
+            res.json(await Order.findByPk(id, {include: Item}));
+            
+        } else {
+            return res.send('No puedes hacer esto')
         }
         
-        await t.commit();
-        res.json(await Order.findByPk(id, {include: Item}));
-
     } catch (error) {
         
         await t.rollback();

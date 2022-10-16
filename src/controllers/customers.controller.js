@@ -29,7 +29,7 @@ const createCustomer =  async (req, res) => {
     const { sub, role } = req.userInfo;
 
     // Users with the guest role should not be able to create customers
-    if (role === 'guest') return res.status(400).json({message: 'You do not have authorization for this action.'});
+    if (role !== 'admin' && role !== 'seller') return res.status(400).json({message: 'You do not have authorization for this action.'});
     
     try {
         const { id, email, firstName, lastName } = req.body;
@@ -76,9 +76,9 @@ const deleteCustomer = async (req, res) => {
     
     const { id } = req.params;
     const { sub, role } = req.userInfo;    
-    const customer = await Customer.findByPk(id);
     
     try {
+        const customer = await Customer.findByPk(id);
         if (role === 'admin' || customer.salespersonId === sub) {
             await Customer.destroy({ where: { id } });
             return res.sendStatus(204);
