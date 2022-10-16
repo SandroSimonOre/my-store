@@ -14,12 +14,11 @@ const handleLogin = async (req, res) => {
     if (!isValid) return res.status(400).send('Invalid user id or password.');
     
     const token = jwt.sign({
-        id: user.id,
+        sub: user.id,
         role: user.role,
         email: user.email,
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24
     }, config.jwtSecret);
-
 
     return res.status(200).json({success : true, token});
     /*

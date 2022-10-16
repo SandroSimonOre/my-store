@@ -31,6 +31,12 @@ const Customer = sequelize.define(
             field: 'last_name'
         },
 
+        salespersonId : {
+            type: DataTypes.STRING(10),
+            allowNull: false,
+            field: 'salesperson_id'
+        }
+
     },
 
     {

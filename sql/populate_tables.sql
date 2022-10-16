@@ -1,16 +1,17 @@
 -- POPULATING USERS TABLE
 INSERT INTO users(id, role, password, email, first_name, last_name) 
 VALUES
-('22099136', 'admin', '123456', 'hello@sandrosimon.com', 'SANDRO', 'SIMON'),
-('22069334', 'seller', '123456', 'aurelia@correo.com', 'AURELIA', 'ORE'),
-('40245832', 'seller', '123456', 'yesica@gmail.com', 'YESICA', 'MARTINEZ');
+('ssimon', 'admin', '123456', 'hello@sandrosimon.com', 'SANDRO', 'SIMON'),
+('nbautista', 'seller', '123456', 'noelia@gmail.com', 'NOELIA', 'BAUTISTA'),
+('mgalindo', 'seller', '123456', 'marylin@gmail.com', 'MARYLIN', 'GALINDO'),
+('guest', 'guest', '123456', 'guest@gmail.com', 'GUEST', 'GUEST');
 
 -- POPULATING CUSTOMERS TABLE
-INSERT INTO customers(id, email, first_name, last_name) 
+INSERT INTO customers(id, email, first_name, last_name, salesperson_id) 
 VALUES
-('29688217', 'ariel@correo.com', 'ARIEL', 'HINOJOSA'),
-('43844573', 'jackie@correo.com', 'JACQUELINE', 'TEJADA'),
-('40483785', 'evelin@correo.com', 'EVELIN', 'ESCOBAR');
+('29688217', 'ariel@correo.com', 'ARIEL', 'HINOJOSA', 'ssimon'),
+('43844573', 'jackie@correo.com', 'JACQUELINE', 'TEJADA', 'nbautista'),
+('40483785', 'evelin@correo.com', 'EVELIN', 'ESCOBAR', 'mgalindo');
 
 -- POPULATING PRODUCTS TABLE
 INSERT INTO products(id, description, uom, stock, last_price, suggested_price) 
@@ -23,10 +24,10 @@ VALUES
 -- POPULATING ORDERS TABLE
 INSERT INTO orders( date, customer_id, salesperson_id)
 VALUES 
-('2022-10-01', '29688217', '40245832'),
-('2022-10-02', '40483785', '22069334'),
-('2022-10-04', '43844573', '22069334'),
-('2022-10-05', '43844573', '22099136');
+('2022-10-01', '29688217', 'mgalindo'),
+('2022-10-02', '40483785', 'ssimon'),
+('2022-10-04', '43844573', 'ssimon'),
+('2022-10-05', '43844573', 'nbautista');
 
 -- POPULATING POSITIONS TABLE
 INSERT INTO items( order_id, product_id, quantity, unit_price) 

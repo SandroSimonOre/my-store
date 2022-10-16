@@ -28,8 +28,10 @@ const getOneOrder = async (req, res) => {
 // CREATE ONE ORDER
 const createOrder =  async (req, res) => {
 
-    const { id, date, customerId, salespersonId, items } = req.body;
-
+    const { id, date, customerId, items } = req.body;
+    const { sub, role } = req.userInfo;
+    if (role !== 'admin' && role !== 'seller') return res.send('You cannot create orders');
+    
     const itemsWithId = items.map( item => {
         return { id, ...item}
     });
@@ -40,7 +42,7 @@ const createOrder =  async (req, res) => {
             id,
             date,
             customerId,
-            salespersonId,
+            salespersonId: sub,
             items: itemsWithId
         }, {include : Item});
         
@@ -92,7 +94,12 @@ const updateOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
     
     const { id } = req.params;
+    const { sub, role } = req.userInfo;
     
+    const order = await Order.findByPk(id);
+
+    if (order.salespersonId !== sub && role !== 'admin') return res.send('No puedes');
+
     try {
         
         await Item.destroy({

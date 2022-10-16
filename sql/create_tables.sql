@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS positions;
+DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS customers;
@@ -16,22 +16,24 @@ CREATE TABLE IF NOT EXISTS products
     suggested_price NUMERIC(10, 2) DEFAULT 0.00
 );
 
-CREATE TABLE IF NOT EXISTS customers
-(
-    id VARCHAR(10) NOT NULL PRIMARY KEY,
-    email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
-    first_name VARCHAR(20) NOT NULL,
-    last_name VARCHAR(20) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS users
 (
-    id VARCHAR(10) NOT NULL PRIMARY KEY,
+    id VARCHAR(10) PRIMARY KEY,
     role VARCHAR(20) NOT NULL,
     password VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL
+    -- Add a field pending_to_change_password
+);
+
+CREATE TABLE IF NOT EXISTS customers
+(
+    id VARCHAR(10) NOT NULL PRIMARY KEY,
+    email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
+    first_name VARCHAR(20) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    salesperson_id VARCHAR(10) NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS orders
