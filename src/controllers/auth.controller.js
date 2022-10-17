@@ -31,8 +31,25 @@ const handleLogin = async (req, res) => {
     */
 }
 
+const handleChangePassword = async (req, res) => {
+    
+    const { currentPassword, newPassword} = req.body;
+    const { sub, role } = req.userInfo;
+    console.log(sub)
+    if (role === 'guest') return res.status(403).json({message: 'Users with guest role cannot change his/her password.'})
+    const user = await User.findByPk(sub);
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (isValid) {
+        user.password = await bcrypt.hash(newPassword, 12);
+        await user.save();
+        res.status(200).json({message: 'Password has been changed successfully.'})
+    } else {
+        return res.status(400).send('The password provided is not valid.');    
+    };   
+} 
 
 
 module.exports = {
     handleLogin,
+    handleChangePassword
 }

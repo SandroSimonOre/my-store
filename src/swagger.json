@@ -39,7 +39,7 @@
       }
     ],
     "paths": {
-      "/login": {
+      "/auth/login": {
         "post": {
           "tags": [
             "Authentication"
@@ -95,13 +95,72 @@
           }
         }      
       },
+      "/auth/changePassword": {
+        "put": {
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Get your access token here",
+          "description": "Get your access token here",
+          "operationId": "handleChangePassword",
+          "requestBody": {
+            "description": "Get your access token here",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "currentPassword": {
+                      "type": "string",
+                      "example": "123456"
+                    },
+                    "newPassword": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "jperez"
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "123456"
+                      }
+                    } 
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        }      
+      },
 
       "/products": {
         "get": {
           "tags": [
             "Product"
           ],
-          "summary": "Get all products",
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Get all products",
           "operationId": "getAllProducts",
           "responses": {
@@ -129,7 +188,7 @@
           "tags": [
             "Product"
           ],
-          "summary": "Add a new account to the database",
+          "summary": "User roles with access to this endpoint: admin",
           "description": "Add a new account to the database",
           "operationId": "createOneProduct",
           "requestBody": {
@@ -169,7 +228,7 @@
           "tags": [
             "Product"
           ],
-          "summary": "Find account by code",
+          "summary": "User roles with access to this endpoint 👉 admin, seller, guest",
           "description": "Returns an account",
           "operationId": "getOneProduct",
           "parameters": [
@@ -211,7 +270,7 @@
           "tags": [
             "Product"
           ],
-          "summary": "Update an existing account",
+          "summary": "User roles with access to this endpoint: admin",
           "description": "Update an existing account by Id",
           "operationId": "updateOneAccount",
           "parameters": [
@@ -275,7 +334,7 @@
           "tags": [
             "Product"
           ],
-          "summary": "Deletes an product",
+          "summary": "User roles with access to this endpoint: admin",
           "description": "delete an product",
           "operationId": "deleteOneProduct",
           "parameters": [
@@ -308,10 +367,8 @@
 
       "/customers": {
         "get": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Get all the travels",
+          "tags": ["Customer"],
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Get all travels",
           "operationId": "getAllCustomers",
           "responses": {
@@ -337,7 +394,7 @@
           "tags": [
             "Customer"
           ],
-          "summary": "Add a new travel to the database",
+          "summary": "User roles with access to this endpoint: admin, seller",
           "description": "Add a new travel to the database",
           "operationId": "createOneCustomer",
           "requestBody": {
@@ -374,10 +431,8 @@
       },
       "/customers/{id}": {
         "get": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Find a travel by id",
+          "tags": ["Customer"],
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Returns a travel",
           "operationId": "getOneCustomer",
           "parameters": [
@@ -416,10 +471,8 @@
           ]
         },
         "put": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Update an existing travel",
+          "tags": ["Customer"],
+          "summary": "User roles with access to this endpoint: admin, seller",
           "description": "Update an existing travel by Id",
           "operationId": "updateCustomer",
           "parameters": [
@@ -479,10 +532,8 @@
           
         },
         "delete": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Deletes an account",
+          "tags": ["Customer"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "delete an account",
           "operationId": "deleteCustomer",
           "parameters": [
@@ -514,10 +565,8 @@
 
       "/orders": {
         "get": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Get all the orders",
+          "tags": ["Order"],
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Get all orders",
           "operationId": "getAllOrders",
           "responses": {
@@ -540,10 +589,8 @@
           ]
         },
         "post": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Add a new transaction to the database",
+          "tags": ["Order"],
+          "summary": "User roles with access to this endpoint: admin, seller",
           "description": "Add a new transaction to the database",
           "operationId": "createOrder",
           "requestBody": {
@@ -556,7 +603,6 @@
                 "example": {
                   "date": "2022-10-05",
                   "customerId": "22222222",
-                  "salespersonId": "22226852",
                   "items": [
                     {
                       "productId": "A100",
@@ -592,10 +638,8 @@
       },
       "/orders/{id}": {
         "get": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Find a order by id",
+          "tags": ["Order"],
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Returns a order",
           "operationId": "getOneOrder",
           "parameters": [
@@ -606,8 +650,10 @@
               "required": true,
               "schema": {
                 "type": "integer",
-                "format":"int64"
+                "format":"int64",
+                "example": 1
               }
+              
             }
           ],
           "responses": {
@@ -633,10 +679,8 @@
           ]
         },
         "put": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Update an existing order",
+          "tags": ["Order"],
+          "summary": "User roles with access to this endpoint: admin, seller",
           "description": "Update an existing order by Id",
           "operationId": "updateOrder",
           "parameters": [
@@ -662,7 +706,6 @@
                 "example": {
                     "date": "2022-10-07",
                     "customerId": "40483785",
-                    "salespersonId": "mgalindo",
                     "items": [
                       {
                         "productId": "A200",
@@ -702,10 +745,8 @@
           
         },
         "delete": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Deletes an order.",
+          "tags": ["Order"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "delete a transaction",
           "operationId": "deleteOrder",
           "parameters": [
@@ -716,7 +757,8 @@
               "required": true,
               "schema": {
                 "type": "integer",
-                "format":"int64"
+                "format":"int64",
+                "example": 1
               }
             }
           ],
@@ -736,10 +778,8 @@
       
       "/users": {
         "get": {
-          "tags": [
-            "User"
-          ],
-          "summary": "Get all users",
+          "tags": ["User"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "Get all users",
           "operationId": "getAllUsers",
           "responses": {
@@ -769,10 +809,8 @@
           ]
         },
         "post": {
-          "tags": [
-            "User"
-          ],
-          "summary": "Add a new user to the database",
+          "tags": ["User"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "Add a new user to the database",
           "operationId": "createOneUser",
           "requestBody": {
@@ -809,10 +847,8 @@
       },
       "/users/{id}": {
         "get": {
-          "tags": [
-            "User"
-          ],
-          "summary": "Find a user by id",
+          "tags": ["User"],
+          "summary": "User roles with access to this endpoint: admin, seller, guest",
           "description": "Returns an user",
           "operationId": "getOneUser",
           "parameters": [
@@ -857,10 +893,8 @@
           ]
         },
         "put": {
-          "tags": [
-            "User"
-          ],
-          "summary": "Update an existing user",
+          "tags": ["User"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "Update an existing user by Id",
           "operationId": "updateOneUser",
           "parameters": [
@@ -920,10 +954,8 @@
           
         },
         "delete": {
-          "tags": [
-            "User"
-          ],
-          "summary": "Deletes an account",
+          "tags": ["User"],
+          "summary": "User roles with access to this endpoint: admin",
           "description": "delete an account",
           "operationId": "deleteOneAccount",
           "parameters": [
@@ -934,7 +966,7 @@
               "required": true,
               "schema": {
                 "type": "string",
-                "example": "kaponte"
+                "example": "jperez"
               }
             }
           ],
@@ -1042,31 +1074,19 @@
           "properties": {
             "id": {
               "type": "integer",
-              "format":"int64",
-              "example": 1
+              "format":"int64"
             },
             "date": {
-              "type": "string",
-              "example": "2022-10-05"
+              "type": "string"
             },
             "customerId": {
-              "type": "string",
-              "example": "22222222"
+              "type": "string"
             },
             "salespersonId": {
-              "type": "string",
-              "example": "22226852"
+              "type": "string"
             },
             "items": {
-              "type":"array",
-              "example": [
-                {
-                  "orderId": 1,
-                  "productId": "A100",
-                  "quantity": "5.00",
-                  "unitPrice": "4.50"
-                }
-              ]
+              "type":"array"
             }
           }
         }

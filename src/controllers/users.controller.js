@@ -4,7 +4,7 @@ const User = require('../models/user.model')
 const getAllUsers = async (req, res) => {
 
     const { role } = req.userInfo;
-    if (role !== 'admin') return res.status(400).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
 
     try {
         const users = await User.findAll();
@@ -20,7 +20,7 @@ const getOneUser = async (req, res) => {
     const { sub, role } = req.userInfo;
     const { id } = req.params;
     
-    if (role !== 'admin' && id !== sub) return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin' && id !== sub) return res.status(403).json({message: 'You should be an admin or the owner of the user to complete this action.'});
         
     try {
         const user = await User.findByPk(id);
@@ -64,7 +64,7 @@ const updateUser = async (req, res) => {
     const { id } = req.params;
     const { sub, role } = req.userInfo;
 
-    if (role !== 'admin') return res.status(400).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
 
     try {
         const user = await User.findByPk(id);
@@ -87,7 +87,7 @@ const deleteUser = async (req, res) => {
     const { sub, role } = req.userInfo;
     
     // Only users with de 'admin' rol can remove anothers users.
-    if (role !== 'admin') return res.status(400).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
 
     try {
         const result = await User.destroy({ where: { id } });
