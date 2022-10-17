@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
       "title": "My Store",
-      "description": "This is a documentation sample made with OpenAPI 3.0 specification.",
+      "description": "Juan Perez is a very popular guy here in my country. So I decided to create an account: id=jperez password=123456. The account has the 'guest' role which means than. Once you login with that id and password I recommend don't refresh the page. If you do, you'll have to login one more time",
       "contact": {
         "name": "Sandro Simón",
         "email": "hello@sandrosimon.com"
@@ -17,6 +17,10 @@
       
     ],
     "tags": [
+      {
+        "name": "Authentication",
+        "description": "Signin here"
+      },
       {
         "name": "Product",
         "description": "Operations about products"
@@ -35,6 +39,63 @@
       }
     ],
     "paths": {
+      "/login": {
+        "post": {
+          "tags": [
+            "Authentication"
+          ],
+          "summary": "Get your access token here",
+          "description": "Get your access token here",
+          "operationId": "handleLogin",
+          "requestBody": {
+            "description": "Get your access token here",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "jperez"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "123456"
+                    }
+                  }
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "jperez"
+                      },
+                      "password": {
+                        "type": "string",
+                        "example": "123456"
+                      }
+                    } 
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          }
+        }      
+      },
+
       "/products": {
         "get": {
           "tags": [
@@ -52,12 +113,17 @@
                     "type": "array",
                     "items": {
                       "$ref":"#/components/schemas/Product"
-                    }  
+                    }
+
                   }
+                  
                 }
               }
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         },
         "post": {
           "tags": [
@@ -92,7 +158,10 @@
             "405": {
               "description": "Invalid input"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         }      
       },
       "/products/{id}": {
@@ -111,7 +180,8 @@
               "description": "Id of the product to return",
               "schema": {
                 "type": "string",
-                "pattern": "^[A-Z]{1}[0-9]{3}$"
+                "pattern": "^[A-Z]{1}[0-9]{3}$",
+                "example": "A100"
               }
             }
           ],
@@ -132,7 +202,10 @@
             "404": {
               "description": "Product not found"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         },
         "put": {
           "tags": [
@@ -143,28 +216,30 @@
           "operationId": "updateOneAccount",
           "parameters": [
             {
-              "name": "accountCode",
+              "name": "id",
               "in": "path",
-              "description": "Code of the account to return",
+              "description": "Id of the product to return.",
               "required": true,
               "schema": {
                 "type": "string",
-                "pattern": "^[0-9]{8}$"
+                "pattern": "^[A-Z]{1}[0-9]{3}$",
+                "example": "A100"
               }
             } 
           ],
           "requestBody": {
-            "description": "Update an existent account in the store",
+            "description": "Update an existent product in the store.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "accountName": {
-                      "type": "string",
-                      "example":"GENERAL EXPENSES"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Product"
+                },
+                "example": {
+                  "description": "LECHE AMARILLA",
+	                "uom": "UND",
+	                "stock": 0.00,
+	                "lastPrice": 5.8,
+                	"suggestedPrice": 7
                 }
               }
             },
@@ -176,7 +251,7 @@
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/Account"
+                    "$ref": "#/components/schemas/Product"
                   }
                 }
               }
@@ -190,7 +265,10 @@
             "405": {
               "description": "Validation exception"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
           
         },
         "delete": {
@@ -208,7 +286,215 @@
               "required": true,
               "schema": {
                 "type": "string",
-                "pattern":"^[A-B]{1}[0-9]{3}$"
+                "pattern":"^[A-B]{1}[0-9]{3}$",
+                "example":"A100"
+              }
+            }
+          ],
+          "responses": {
+            "200":{
+              "description": "The item was succesfully removed."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        }
+        
+      },
+
+      "/customers": {
+        "get": {
+          "tags": [
+            "Customer"
+          ],
+          "summary": "Get all the travels",
+          "description": "Get all travels",
+          "operationId": "getAllCustomers",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/Customer"
+                    }  
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        },
+        "post": {
+          "tags": [
+            "Customer"
+          ],
+          "summary": "Add a new travel to the database",
+          "description": "Add a new travel to the database",
+          "operationId": "createOneCustomer",
+          "requestBody": {
+            "description": "Create a new travel",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/Customer"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Customer"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        }      
+      },
+      "/customers/{id}": {
+        "get": {
+          "tags": [
+            "Customer"
+          ],
+          "summary": "Find a travel by id",
+          "description": "Returns a travel",
+          "operationId": "getOneCustomer",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Code of the account to return",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9]{8,10}$",
+                "example": "12345678"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Customer"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        },
+        "put": {
+          "tags": [
+            "Customer"
+          ],
+          "summary": "Update an existing travel",
+          "description": "Update an existing travel by Id",
+          "operationId": "updateCustomer",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Code of the travel to return",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9]{8,10}$",
+                "example": "12345678"
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent travel in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Customer"
+                },
+                "example": {
+                  "email": "mfragides@gmail.com",
+	                "firstName": "MISHEL",
+                  "lastName": "FRAGIDES",
+                  "salespersonId": "ssimon"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid account code supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+          
+        },
+        "delete": {
+          "tags": [
+            "Customer"
+          ],
+          "summary": "Deletes an account",
+          "description": "delete an account",
+          "operationId": "deleteCustomer",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "The customer id to remove",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "pattern": "^[0-9]{8,10}$",
+                "example": "12345678"
               }
             }
           ],
@@ -219,10 +505,235 @@
             "500":{
               "description": "Unexpected error."
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         }
-        
       },
+
+      "/orders": {
+        "get": {
+          "tags": [
+            "Order"
+          ],
+          "summary": "Get all the orders",
+          "description": "Get all orders",
+          "operationId": "getAllOrders",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref":"#/components/schemas/Order"
+                    }  
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        },
+        "post": {
+          "tags": [
+            "Order"
+          ],
+          "summary": "Add a new transaction to the database",
+          "description": "Add a new transaction to the database",
+          "operationId": "createOrder",
+          "requestBody": {
+            "description": "Create a new order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                  "date": "2022-10-05",
+                  "customerId": "22222222",
+                  "salespersonId": "22226852",
+                  "items": [
+                    {
+                      "productId": "A100",
+                      "quantity": "5.00",
+                      "unitPrice": "4.50"
+                    }
+                  ]
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Order"  
+                  }
+                }
+                
+              }
+            },
+            "405": {
+              "description": "Invalid input"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        }      
+      },
+      "/orders/{id}": {
+        "get": {
+          "tags": [
+            "Order"
+          ],
+          "summary": "Find a order by id",
+          "description": "Returns a order",
+          "operationId": "getOneOrder",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Id of the order to return",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format":"int64"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref":"#/components/schemas/Order"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid ID supplied"
+            },
+            "404": {
+              "description": "Account not found"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        },
+        "put": {
+          "tags": [
+            "Order"
+          ],
+          "summary": "Update an existing order",
+          "description": "Update an existing order by Id",
+          "operationId": "updateOrder",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Code of the order to update",
+              "required": true,
+              "schema": {
+                "type": "number",
+                "format":"int64",
+                "example":1
+              }
+            } 
+          ],
+          "requestBody": {
+            "description": "Update an existent transaction in the database.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                },
+                "example": {
+                    "date": "2022-10-07",
+                    "customerId": "40483785",
+                    "salespersonId": "mgalindo",
+                    "items": [
+                      {
+                        "productId": "A200",
+                        "quantity": "1.00",
+                        "unitPrice": "50"
+                      }
+                    ]
+                  }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid transaction Id supplied"
+            },
+            "404": {
+              "description": "Transaction not found"
+            },
+            "405": {
+              "description": "Validation exception"
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+          
+        },
+        "delete": {
+          "tags": [
+            "Order"
+          ],
+          "summary": "Deletes an order.",
+          "description": "delete a transaction",
+          "operationId": "deleteOrder",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Order id to delete",
+              "required": true,
+              "schema": {
+                "type": "integer",
+                "format":"int64"
+              }
+            }
+          ],
+          "responses": {
+            "204":{
+              "description": "The transaction was deleted successfully."
+            },
+            "500":{
+              "description": "Unexpected error."
+            }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
+        }
+      },
+      
       "/users": {
         "get": {
           "tags": [
@@ -241,11 +752,21 @@
                     "items": {
                       "$ref":"#/components/schemas/User"
                     }  
-                  }
+                  },
+                  "example": [{
+                    "id": "ssimon",
+                    "role": "admin",
+                    "email": "hello@sandrosimon.com",
+                    "firstName": "SANDRO",
+                    "lastName": "SIMON"
+                  }]
                 }
               }
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         },
         "post": {
           "tags": [
@@ -280,7 +801,10 @@
             "405": {
               "description": "Invalid input"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         }      
       },
       "/users/{id}": {
@@ -293,12 +817,13 @@
           "operationId": "getOneUser",
           "parameters": [
             {
-              "name": "userId",
+              "name": "id",
               "in": "path",
               "description": "Code of the account to return",
               "required": true,
               "schema": {
-                "type": "string"
+                "type": "string",
+                "example": "jperez"
               }
             }
           ],
@@ -309,6 +834,13 @@
                 "application/json": {
                   "schema": {
                     "$ref":"#/components/schemas/User"
+                  },
+                  "example": {
+                    "id": "ssimon",
+                    "role": "admin",
+                    "email": "hello@sandrosimon.com",
+                    "firstName": "SANDRO",
+                    "lastName": "SIMON"
                   }
                 }
               }
@@ -319,7 +851,10 @@
             "404": {
               "description": "Account not found"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
         },
         "put": {
           "tags": [
@@ -330,12 +865,13 @@
           "operationId": "updateOneUser",
           "parameters": [
             {
-              "name": "userId",
+              "name": "id",
               "in": "path",
               "description": "Code of the user to return",
               "required": true,
               "schema": {
-                "type": "string"
+                "type": "string",
+                "example": "ssimon"
               }
             } 
           ],
@@ -344,29 +880,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "role": {
-                      "type": "string",
-                      "example":"admin"
-                    },
-                    "password": {
-                      "type": "string",
-                      "example":"123456"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example":"user@domain.com"
-                    },
-                    "firstName": {
-                      "type": "string",
-                      "example":"Lizbeth"
-                    },
-                    "lastName": {
-                      "type": "string",
-                      "example":"Galindo"
-                    }
-                  }
+                  "$ref": "#/components/schemas/User"
+                },
+                "example": {
+                  "role": "admin",
+                  "password": "1234asd",
+                  "email": "hello@sandrosimon.com",
+                  "firstName": "SANDRO",
+                  "lastName": "SIMON"
                 }
               }
             },
@@ -392,7 +913,10 @@
             "405": {
               "description": "Validation exception"
             }
-          }
+          },
+          "security": [
+            { "storeAuth": [] }
+          ]
           
         },
         "delete": {
@@ -404,12 +928,13 @@
           "operationId": "deleteOneAccount",
           "parameters": [
             {
-              "name": "userId",
+              "name": "id",
               "in": "path",
               "description": "Account code to delete",
               "required": true,
               "schema": {
-                "type": "string"
+                "type": "string",
+                "example": "kaponte"
               }
             }
           ],
@@ -420,452 +945,10 @@
             "500":{
               "description": "Unexpected error."
             }
-          }
-        }
-      },
-      "/customers": {
-        "get": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Get all the travels",
-          "description": "Get all travels",
-          "operationId": "getAllTravels",
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref":"#/components/schemas/Travel"
-                    }  
-                  }
-                }
-              }
-            }
-          }
-        },
-        "post": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Add a new travel to the database",
-          "description": "Add a new travel to the database",
-          "operationId": "createOneTravel",
-          "requestBody": {
-            "description": "Create a new travel",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref":"#/components/schemas/Travel"
-                }
-              }
-            },
-            "required": true
           },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref":"#/components/schemas/Travel"  
-                  }
-                }
-                
-              }
-            },
-            "405": {
-              "description": "Invalid input"
-            }
-          }
-        }      
-      },
-      "/customers/{id}": {
-        "get": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Find a travel by id",
-          "description": "Returns a travel",
-          "operationId": "getOneTravel",
-          "parameters": [
-            {
-              "name": "travelId",
-              "in": "path",
-              "description": "Code of the account to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref":"#/components/schemas/Travel"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
-            "404": {
-              "description": "Account not found"
-            }
-          }
-        },
-        "put": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Update an existing travel",
-          "description": "Update an existing travel by Id",
-          "operationId": "updateOneTravel",
-          "parameters": [
-            {
-              "name": "travelId",
-              "in": "path",
-              "description": "Code of the travel to return",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            } 
-          ],
-          "requestBody": {
-            "description": "Update an existent travel in the database.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "userId": {
-                      "type": "string",
-                      "example":"admin"
-                    },
-                    "submitDate": {
-                      "type": "string",
-                      "example":"2022-06-15"
-                    },
-                    "currency": {
-                      "type": "string",
-                      "example":"USD"
-                    },
-                    "totalAmount": {
-                      "type": "number",
-                      "example":25
-                    },
-                    "destination": {
-                      "type": "string",
-                      "example":"CUSCO"
-                    }
-                  }
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Travel"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid account code supplied"
-            },
-            "404": {
-              "description": "Account not found"
-            },
-            "405": {
-              "description": "Validation exception"
-            }
-          }
-          
-        },
-        "delete": {
-          "tags": [
-            "Customer"
-          ],
-          "summary": "Deletes an account",
-          "description": "delete an account",
-          "operationId": "deleteOneAccount",
-          "parameters": [
-            {
-              "name": "travelId",
-              "in": "path",
-              "description": "Account code to delete",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "204":{
-              "description": "The account was deleted successfully."
-            },
-            "500":{
-              "description": "Unexpected error."
-            }
-          }
-        }
-      },
-      "/orders": {
-        "get": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Get all the transactions",
-          "description": "Get all transactions",
-          "operationId": "getAllTransactions",
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref":"#/components/schemas/Transaction"
-                    }  
-                  }
-                }
-              }
-            }
-          }
-        },
-        "post": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Add a new transaction to the database",
-          "description": "Add a new transaction to the database",
-          "operationId": "createOneTransaction",
-          "requestBody": {
-            "description": "Create a new transaction",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "travelId": {
-                      "type": "string",
-                      "example":"2022080106"
-                    },
-                    "transDate": {
-                      "type": "string",
-                      "example":"2022-06-15"
-                    },
-                    "docType": {
-                      "type": "string",
-                      "example":"004"
-                    },
-                    "docNumber": {
-                      "type": "number",
-                      "example":"00652"
-                    },
-                    "accountCode": {
-                      "type": "string",
-                      "example":"65000000"
-                    },
-                    "transDescription": {
-                      "type": "string",
-                      "example":"HOSPEDAJE"
-                    },
-                    "amount": {
-                      "type": "number",
-                      "format":"float",
-                      "example": 52
-                    }
-                  }
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref":"#/components/schemas/Transaction"  
-                  }
-                }
-                
-              }
-            },
-            "405": {
-              "description": "Invalid input"
-            }
-          }
-        }      
-      },
-      "/orders/{id}": {
-        "get": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Find a transaction by id",
-          "description": "Returns a transaction",
-          "operationId": "getOneTransaction",
-          "parameters": [
-            {
-              "name": "transactionId",
-              "in": "path",
-              "description": "Code of the account to return",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format":"int64"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref":"#/components/schemas/Transaction"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
-            "404": {
-              "description": "Account not found"
-            }
-          }
-        },
-        "put": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Update an existing transaction",
-          "description": "Update an existing transaction by Id",
-          "operationId": "updateOneTransaction",
-          "parameters": [
-            {
-              "name": "transactionId",
-              "in": "path",
-              "description": "Code of the transaction to return",
-              "required": true,
-              "schema": {
-                "type": "number",
-                "format":"int64",
-                "example":88
-              }
-            } 
-          ],
-          "requestBody": {
-            "description": "Update an existent transaction in the database.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "travelId": {
-                      "type": "string",
-                      "example":"2022080106"
-                    },
-                    "transDate": {
-                      "type": "string",
-                      "example":"2022-06-15"
-                    },
-                    "docType": {
-                      "type": "string",
-                      "example":"004"
-                    },
-                    "docNumber": {
-                      "type": "number",
-                      "example":"00652"
-                    },
-                    "accountCode": {
-                      "type": "string",
-                      "example":"65000000"
-                    },
-                    "transDescription": {
-                      "type": "string",
-                      "example":"HOSPEDAJE"
-                    },
-                    "amount":
-                    {
-                      "type":"number",
-                      "format":"float",
-                      "example": 68.00
-                    }
-                  }
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "description": "Successful operation",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Transaction"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Invalid transaction Id supplied"
-            },
-            "404": {
-              "description": "Transaction not found"
-            },
-            "405": {
-              "description": "Validation exception"
-            }
-          }
-          
-        },
-        "delete": {
-          "tags": [
-            "Order"
-          ],
-          "summary": "Deletes a transaction.",
-          "description": "delete a transaction",
-          "operationId": "deleteOneTransaction",
-          "parameters": [
-            {
-              "name": "transactionId",
-              "in": "path",
-              "description": "Transaction id to delete",
-              "required": true,
-              "schema": {
-                "type": "integer",
-                "format":"int64"
-              }
-            }
-          ],
-          "responses": {
-            "204":{
-              "description": "The transaction was deleted successfully."
-            },
-            "500":{
-              "description": "Unexpected error."
-            }
-          }
+          "security": [
+            { "storeAuth": [] }
+          ]
         }
       }  
     },
@@ -947,6 +1030,10 @@
             "lastName": {
               "type": "string",
               "example": "Galindo"
+            },
+            "salespersonId": {
+              "type": "string",
+              "example": "mgalindo"
             }
           }
         },
@@ -969,8 +1056,26 @@
             "salespersonId": {
               "type": "string",
               "example": "22226852"
+            },
+            "items": {
+              "type":"array",
+              "example": [
+                {
+                  "orderId": 1,
+                  "productId": "A100",
+                  "quantity": "5.00",
+                  "unitPrice": "4.50"
+                }
+              ]
             }
           }
+        }
+      },
+      "securitySchemes": {
+        "storeAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
         }
       }
     }  

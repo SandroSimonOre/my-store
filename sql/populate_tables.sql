@@ -1,10 +1,10 @@
 -- POPULATING USERS TABLE
 INSERT INTO users(id, role, password, email, first_name, last_name) 
 VALUES
-('ssimon', 'admin', '123456', 'hello@sandrosimon.com', 'SANDRO', 'SIMON'),
-('nbautista', 'seller', '123456', 'noelia@gmail.com', 'NOELIA', 'BAUTISTA'),
-('mgalindo', 'seller', '123456', 'marylin@gmail.com', 'MARYLIN', 'GALINDO'),
-('guest', 'guest', '123456', 'guest@gmail.com', 'GUEST', 'GUEST');
+('ssimon', 'admin', '$2a$12$Sx0.q/7KUe0iYloH7NTJr.Ukcxe0.mIxmQjBkCbwzeLBSGg4jyREC', 'hello@sandrosimon.com', 'SANDRO', 'SIMON'),
+('nbautista', 'seller', '$2a$12$Sx0.q/7KUe0iYloH7NTJr.Ukcxe0.mIxmQjBkCbwzeLBSGg4jyREC', 'nbautista@gmail.com', 'NOELIA', 'BAUTISTA'),
+('mgalindo', 'seller', '$2a$12$Sx0.q/7KUe0iYloH7NTJr.Ukcxe0.mIxmQjBkCbwzeLBSGg4jyREC', 'mgalindo@gmail.com', 'MARYLIN', 'GALINDO'),
+('jperez', 'guest', '$2a$12$Sx0.q/7KUe0iYloH7NTJr.Ukcxe0.mIxmQjBkCbwzeLBSGg4jyREC', 'jperez@gmail.com', 'JUAN', 'PEREZ');
 
 -- POPULATING CUSTOMERS TABLE
 INSERT INTO customers(id, email, first_name, last_name, salesperson_id) 

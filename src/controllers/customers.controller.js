@@ -62,7 +62,7 @@ const updateCustomer = async (req, res) => {
             await customer.save();
             res.json(customer);
         } else {
-            return res.status(400).json({message: 'You should be an admin or the resource owner to do this action.'})
+            return res.status(403).json({message: 'You should be an admin or the resource owner to do this action.'})
         }
         
 
@@ -79,11 +79,12 @@ const deleteCustomer = async (req, res) => {
     
     try {
         const customer = await Customer.findByPk(id);
+        if (!customer) return res.status(404).json({message: `The customer with id ${id} does not exist.`});
+        
+        // Only 'admin' or the owner are able to remove a customer.
         if (role === 'admin' || customer.salespersonId === sub) {
             await Customer.destroy({ where: { id } });
-            return res.sendStatus(204);
-        } else {
-            return res.status(400).json({message: 'You should be an admin or the resource owner to do this action.'})
+            return res.status(200).json({message: `The customer with id ${id} was successfully removed.`});
         }
         
     } catch (error) {

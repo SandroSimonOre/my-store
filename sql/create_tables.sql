@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS customers
 (
     id VARCHAR(10) NOT NULL PRIMARY KEY,
-    email VARCHAR(50) NOT NULL CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
+    email VARCHAR(50) NOT NULL UNIQUE CHECK (email::text ~ '(^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$)'),
     first_name VARCHAR(20) NOT NULL,
     last_name VARCHAR(20) NOT NULL,
     salesperson_id VARCHAR(10) NOT NULL REFERENCES users(id)

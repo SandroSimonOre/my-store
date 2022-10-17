@@ -24,7 +24,6 @@ const User = sequelize.define(
 
         email: {
             type: DataTypes.STRING(50),
-            //validate: { is: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
             validate: {isEmail: true,},
             allowNull: false,
             

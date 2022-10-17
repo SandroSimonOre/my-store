@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc, {customCss: '.swagger-ui .topbar { display: none }'}));
-app.use('/api/auth', authRouter);
+app.use('/api/v1/login', authRouter);
 app.use('/api/v1/users', validateToken, usersRouter);
 app.use('/api/v1/customers', validateToken, customersRouter);
 app.use('/api/v1/products', validateToken, productsRouter);

@@ -104,23 +104,27 @@ const deleteOrder = async (req, res) => {
     
     const order = await Order.findByPk(id);
 
-    if (order.salespersonId !== sub && role !== 'admin') return res.send('No puedes');
+    if (!order) return res.status(404).json({message: `The order ${id} does not exist.`});
+    
+    // Only the owner of the order or a user with the 'admin' role can remove an order.
+    if (order.salespersonId !== sub && role !== 'admin') return res.status(401).json({message: 'You are not authorized to perform this action.'});
 
+    const t = await sequelize.transaction();
     try {
         
-        await Item.destroy({
-            where: { orderId : id }  
-        })
+        await Item.destroy({ where: { orderId : id}, transaction: t })
+        const result = await Order.destroy({ where: { id }, transaction: t });
         
-        await Order.destroy({
-            where: { id }
-        });
-        return res.sendStatus(204);
+        if (result === 1 ) {
+            await t.commit();
+            return res.status(200).json({message: `The order ${id} was successfully removed.`});
+        }
     
     } catch (error) {
-    
-        return res.status(500).json({message: error.message})
-    
+
+        await t.rollback();
+        return res.status(500).json({message: error.message});
+
     }
 }
 
