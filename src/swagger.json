@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
       "title": "My Store",
-      "description": "Juan Perez is a very popular guy here in my country. So I decided to create an account: id=jperez password=123456. The account has the 'guest' role which means than. Once you login with that id and password I recommend don't refresh the page. If you do, you'll have to login one more time",
+      "description": "This is an API for a store that allows users, according to their user role, to perform different actions such as select, create, modify and delete; on the following resources: orders, products and customers.",
       "contact": {
         "name": "Sandro Simón",
         "email": "hello@sandrosimon.com"
@@ -19,23 +19,23 @@
     "tags": [
       {
         "name": "Authentication",
-        "description": "Signin here"
+        "description": ""
       },
       {
         "name": "Product",
-        "description": "Operations about products"
+        "description": ""
       },
       {
         "name": "Customer",
-        "description": "Operations about customers"
+        "description": ""
       },
       {
         "name": "Order",
-        "description": "Operations about orders"
+        "description": ""
       },
       {
         "name": "User",
-        "description": "Operations about users"
+        "description": ""
       }
     ],
     "paths": {
@@ -44,11 +44,11 @@
           "tags": [
             "Authentication"
           ],
-          "summary": "Get your access token here",
-          "description": "Get your access token here",
+          "summary": "Users get access token here.",
+          "description": "Get your access token here.",
           "operationId": "handleLogin",
           "requestBody": {
-            "description": "Get your access token here",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -100,11 +100,11 @@
           "tags": [
             "Authentication"
           ],
-          "summary": "Get your access token here",
-          "description": "Get your access token here",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Change your password here.",
           "operationId": "handleChangePassword",
           "requestBody": {
-            "description": "Get your access token here",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -160,8 +160,8 @@
           "tags": [
             "Product"
           ],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
-          "description": "Get all products",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Get all products.",
           "operationId": "getAllProducts",
           "responses": {
             "200": {
@@ -188,11 +188,11 @@
           "tags": [
             "Product"
           ],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "Add a new account to the database",
+          "summary": "User roles with access to this endpoint 👉 admin",
+          "description": "Create a new product.",
           "operationId": "createOneProduct",
           "requestBody": {
-            "description": "Create a new product",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -204,7 +204,7 @@
           },
           "responses": {
             "200": {
-              "description": "Successful operation",
+              "description": "Successful operation.",
               "content": {
                 "application/json": {
                   "schema": {
@@ -214,8 +214,11 @@
                 
               }
             },
-            "405": {
-              "description": "Invalid input"
+            "403": {
+              "description": "You can't complete this action."
+            },
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -229,14 +232,14 @@
             "Product"
           ],
           "summary": "User roles with access to this endpoint 👉 admin, seller, guest",
-          "description": "Returns an account",
+          "description": "Get one product.",
           "operationId": "getOneProduct",
           "parameters": [
             {
               "name": "id",
               "in": "path",
               "required": true,
-              "description": "Id of the product to return",
+              "description": "Enter the id of the product to show.",
               "schema": {
                 "type": "string",
                 "pattern": "^[A-Z]{1}[0-9]{3}$",
@@ -246,7 +249,7 @@
           ],
           "responses": {
             "200": {
-              "description": "successful operation",
+              "description": "Successful operation",
               "content": {
                 "application/json": {
                   "schema": {
@@ -255,11 +258,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
             "404": {
-              "description": "Product not found"
+              "description": "Product does not exist."
+            },
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -270,14 +273,14 @@
           "tags": [
             "Product"
           ],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "Update an existing account by Id",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Update an existing product.",
           "operationId": "updateOneAccount",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Id of the product to return.",
+              "description": "Enter the id of the product to update.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -287,7 +290,7 @@
             } 
           ],
           "requestBody": {
-            "description": "Update an existent product in the store.",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -334,14 +337,14 @@
           "tags": [
             "Product"
           ],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "delete an product",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Delete a product.",
           "operationId": "deleteOneProduct",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Product id to delete",
+              "description": "Enter the product id to delete.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -354,8 +357,11 @@
             "200":{
               "description": "The item was succesfully removed."
             },
+            "404":{
+              "description": "The item does not exist."
+            },
             "500":{
-              "description": "Unexpected error."
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -368,8 +374,8 @@
       "/customers": {
         "get": {
           "tags": ["Customer"],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
-          "description": "Get all travels",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Get all customers.",
           "operationId": "getAllCustomers",
           "responses": {
             "200": {
@@ -394,11 +400,11 @@
           "tags": [
             "Customer"
           ],
-          "summary": "User roles with access to this endpoint: admin, seller",
-          "description": "Add a new travel to the database",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller",
+          "description": "Create a new customer.",
           "operationId": "createOneCustomer",
           "requestBody": {
-            "description": "Create a new travel",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -432,14 +438,14 @@
       "/customers/{id}": {
         "get": {
           "tags": ["Customer"],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
-          "description": "Returns a travel",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Get one customer.",
           "operationId": "getOneCustomer",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Code of the account to return",
+              "description": "Enter the id of the customer to show.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -472,14 +478,14 @@
         },
         "put": {
           "tags": ["Customer"],
-          "summary": "User roles with access to this endpoint: admin, seller",
-          "description": "Update an existing travel by Id",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller",
+          "description": "Update an existing customer.",
           "operationId": "updateCustomer",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Code of the travel to return",
+              "description": "Enter the id of the customer to update.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -533,14 +539,14 @@
         },
         "delete": {
           "tags": ["Customer"],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "delete an account",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Delete an customer.",
           "operationId": "deleteCustomer",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "The customer id to remove",
+              "description": "Enter the id of the customer to delete.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -551,10 +557,10 @@
           ],
           "responses": {
             "204":{
-              "description": "The account was deleted successfully."
+              "description": "The customer was deleted successfully."
             },
             "500":{
-              "description": "Unexpected error."
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -566,7 +572,7 @@
       "/orders": {
         "get": {
           "tags": ["Order"],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
           "description": "Get all orders",
           "operationId": "getAllOrders",
           "responses": {
@@ -590,11 +596,11 @@
         },
         "post": {
           "tags": ["Order"],
-          "summary": "User roles with access to this endpoint: admin, seller",
-          "description": "Add a new transaction to the database",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller",
+          "description": "Create a new order.",
           "operationId": "createOrder",
           "requestBody": {
-            "description": "Create a new order",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -639,14 +645,14 @@
       "/orders/{id}": {
         "get": {
           "tags": ["Order"],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
-          "description": "Returns a order",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Get one order.",
           "operationId": "getOneOrder",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Id of the order to return",
+              "description": "Enter the id of the product to show.",
               "required": true,
               "schema": {
                 "type": "integer",
@@ -680,14 +686,14 @@
         },
         "put": {
           "tags": ["Order"],
-          "summary": "User roles with access to this endpoint: admin, seller",
-          "description": "Update an existing order by Id",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller",
+          "description": "Update an existing order.",
           "operationId": "updateOrder",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Code of the order to update",
+              "description": "Enter the id of the order to update.",
               "required": true,
               "schema": {
                 "type": "number",
@@ -697,7 +703,7 @@
             } 
           ],
           "requestBody": {
-            "description": "Update an existent transaction in the database.",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -746,14 +752,14 @@
         },
         "delete": {
           "tags": ["Order"],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "delete a transaction",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Delete an order.",
           "operationId": "deleteOrder",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Order id to delete",
+              "description": "Enter the order id to delete.",
               "required": true,
               "schema": {
                 "type": "integer",
@@ -779,7 +785,7 @@
       "/users": {
         "get": {
           "tags": ["User"],
-          "summary": "User roles with access to this endpoint: admin",
+          "summary": "User roles with access to this endpoint: 👉 admin",
           "description": "Get all users",
           "operationId": "getAllUsers",
           "responses": {
@@ -810,11 +816,11 @@
         },
         "post": {
           "tags": ["User"],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "Add a new user to the database",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Create a new user.",
           "operationId": "createOneUser",
           "requestBody": {
-            "description": "Create a new user",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -848,14 +854,14 @@
       "/users/{id}": {
         "get": {
           "tags": ["User"],
-          "summary": "User roles with access to this endpoint: admin, seller, guest",
-          "description": "Returns an user",
+          "summary": "User roles with access to this endpoint: 👉 admin, seller, guest",
+          "description": "Get one user.",
           "operationId": "getOneUser",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Code of the account to return",
+              "description": "Enter the id of the user to show.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -894,14 +900,14 @@
         },
         "put": {
           "tags": ["User"],
-          "summary": "User roles with access to this endpoint: admin",
-          "description": "Update an existing user by Id",
+          "summary": "User roles with access to this endpoint: 👉 admin",
+          "description": "Update an existing user.",
           "operationId": "updateOneUser",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Code of the user to return",
+              "description": "Enter the id of the user to update.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -910,7 +916,7 @@
             } 
           ],
           "requestBody": {
-            "description": "Update an existent account in the store",
+            "description": "Enter data according to the example shown below.",
             "content": {
               "application/json": {
                 "schema": {
@@ -955,14 +961,14 @@
         },
         "delete": {
           "tags": ["User"],
-          "summary": "User roles with access to this endpoint: admin",
+          "summary": "User roles with access to this endpoint: 👉 admin",
           "description": "delete an account",
           "operationId": "deleteOneAccount",
           "parameters": [
             {
               "name": "id",
               "in": "path",
-              "description": "Account code to delete",
+              "description": "Enter the user id to delete.",
               "required": true,
               "schema": {
                 "type": "string",
@@ -971,11 +977,14 @@
             }
           ],
           "responses": {
-            "204":{
-              "description": "The account was deleted successfully."
+            "200":{
+              "description": "The user was succesfully removed."
+            },
+            "404":{
+              "description": "The user does not exist."
             },
             "500":{
-              "description": "Unexpected error."
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [

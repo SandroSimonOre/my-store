@@ -4,22 +4,11 @@ const getAllProducts = async (req, res) => {
 
     try {
         const products = await Product.findAll();
-        res.json(products)    
+        res.status(200).json(products);    
     } catch (error) {
         return res.status(500).json({message: error.message})
     }
 
-}
-
-const getOneProduct = async (req, res) => {
-    
-    const { id } = req.params;
-    try {
-        const product = await Product.findByPk(id)
-        res.json(product)
-    } catch (error) {
-        return res.status(500).json({message: error.message})
-    }
 }
 
 const createProduct =  async (req, res) => {
@@ -32,11 +21,27 @@ const createProduct =  async (req, res) => {
         const { id, description, uom, stock, lastPrice, suggestedPrice } = req.body;
         
         const newProduct = await Product.create({ id, description, uom, stock, lastPrice, suggestedPrice });
-        if (newProduct) return res.status(200).json({newProduct})
+        if (newProduct) return res.status(200).json({newProduct});
+
     } catch (error) {
         return res.status(500).json({message: error.message})
     }  
 
+}
+
+const getOneProduct = async (req, res) => {
+    
+    const { id } = req.params;
+    try {
+        const product = await Product.findByPk(id)
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(404).json({message: 'The product does not exist.'});
+        }
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
 }
 
 const updateProduct = async (req, res) => {
@@ -80,8 +85,8 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
     getAllProducts,
-    getOneProduct,
     createProduct,
+    getOneProduct,
     updateProduct,
     deleteProduct
 };
