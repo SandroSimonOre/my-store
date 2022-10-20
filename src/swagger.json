@@ -2,11 +2,8 @@
     "openapi": "3.0.3",
     "info": {
       "title": "My Store",
-      "description": "This is an API for a store that allows users, according to their user role, to perform different actions such as select, create, modify and delete; on the following resources: orders, products and customers.\n\n Endpoints that include the guest user role are publicly available. To execute such endpoints you must follow the next steps:\n\n✔️ Go to the first endpoint (__/auth/login__) entering __jperez__ and __123456__ as user and password respectively.\n✔️ The API returns a token that will enable access to the other endpoints.\n✔️ Copy the token, click the Authorize button or any of the padlock icons below, and finally enter the token when it is required.\n\n\nIn order to try out other endpoints please contact the developer and ask for the corresponding credentials.\n\n👇",
-      "contact": {
-        "name": "Sandro Simón",
-        "email": "hello@sandrosimon.com"
-      },
+      "description": "This is an API for a store that allows users, according to their user role, to perform different actions such as select, create, modify and delete; on the following resources: orders, products and customers.\n\n Endpoints that include the guest user role are publicly available. To execute such endpoints you must follow the next steps:\n\n✔️ Go to the first endpoint (__/auth/login__) entering __jperez__ and __123456__ as user and password respectively.\n✔️ The API returns a token that will enable access to the other endpoints.\n✔️ Copy the token, click the Authorize button or any of the padlock icons below, and finally enter the token when it is required.\n\n\nIn order to try out other endpoints please contact the developer and ask for the corresponding credentials.\n\n👇\n\nEmail: [hello@sandrosimon.com](mailto:hello@sandrosimon.com)\n\nLinkedin: [linkedin.com/in/sandrosimonore/](https://www.linkedin.com/in/sandrosimonore/)",
+      
       "version": "1.0.0"
     },
     "servers": [
