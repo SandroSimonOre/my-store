@@ -60,6 +60,7 @@ const updateCustomer = async (req, res) => {
 
     try {
         const customer = await Customer.findByPk(id);
+        if (!customer) return res.status(404).json({message: 'The customer does not exist.'})
         // Only Users with the admin role or users that create the resource can update a customer
         if (role === 'admin' || customer.salespersonId === sub) {
             customer.set(req.body);

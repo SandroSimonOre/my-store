@@ -11,7 +11,9 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc, {customCss: '.swagger-ui .topbar { display: none }'}));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc, {
+  customCss: '.swagger-ui .topbar { display: none } p {white-space: pre}'
+}));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', validateToken, usersRouter);
 app.use('/api/v1/customers', validateToken, customersRouter);
