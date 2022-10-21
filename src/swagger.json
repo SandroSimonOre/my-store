@@ -460,7 +460,7 @@
               }
             },
             "404": {
-              "description": "Account not found"
+              "description": "The customer does not exist."
             },
             "500":{
               "description":"An unexpected error has happened on the server."
