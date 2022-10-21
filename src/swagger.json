@@ -315,14 +315,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid account code supplied"
-            },
             "404": {
-              "description": "Account not found"
+              "description": "The product does not exist."
             },
-            "405": {
-              "description": "Validation exception"
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -423,8 +420,8 @@
                 
               }
             },
-            "405": {
-              "description": "Invalid input"
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -462,11 +459,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
             "404": {
               "description": "Account not found"
+            },
+            "500":{
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -519,11 +516,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid account code supplied"
+            "403": {
+              "description":"You can't complete this action."
             },
             "404": {
-              "description": "Account not found"
+              "description": "The customer does not exist."
             },
             "500": {
               "description": "An unexpected error has happened on the server."
