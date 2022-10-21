@@ -53,7 +53,7 @@ const updateProduct = async (req, res) => {
 
     try {
         const product = await Product.findByPk(id);
-        
+        if (!product) return res.status(404).json({message: 'The product does not exist.'});
         product.set(req.body);
         await product.save();
         res.status(200).json(product);

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user.model')
-
+// GET
 const getAllUsers = async (req, res) => {
 
     const { role } = req.userInfo;
@@ -9,28 +9,13 @@ const getAllUsers = async (req, res) => {
     try {
         const users = await User.findAll();
         users.forEach(user => { return delete user.dataValues.password });
-        res.json(users)    
+        res.status(200).json(users);    
     } catch (error) {
         return res.status(500).json({message: error.message})
     }
 }
 
-const getOneUser = async (req, res) => {
-    
-    const { sub, role } = req.userInfo;
-    const { id } = req.params;
-    
-    if (role !== 'admin' && id !== sub) return res.status(403).json({message: 'You should be an admin or the owner of the user to complete this action.'});
-        
-    try {
-        const user = await User.findByPk(id);
-        delete user.dataValues.password;
-        res.json(user)
-    } catch (error) {
-        return res.status(500).json({message: error.message})
-    }
-}
-
+// POST
 const createUser =  async (req, res) => {
 
     const { role } = req.userInfo;
@@ -49,7 +34,7 @@ const createUser =  async (req, res) => {
         });
         delete newUser.dataValues.password;
         
-        res.json({newUser});
+        res.status(200).json({newUser});
 
     } catch (error) {
         
@@ -59,6 +44,25 @@ const createUser =  async (req, res) => {
 
 }
 
+// GET
+const getOneUser = async (req, res) => {
+    
+    const { sub, role } = req.userInfo;
+    const { id } = req.params;
+    
+    if (role !== 'admin' && id !== sub) return res.status(403).json({message: 'You should be an admin or the owner of the user to complete this action.'});
+        
+    try {
+        const user = await User.findByPk(id);
+        if (!user) return res.status(404).json({message: 'The user does not exist.'})
+        delete user.dataValues.password;
+        res.status(200).json(user)
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+}
+
+// PUT
 const updateUser = async (req, res) => {
     
     const { id } = req.params;
@@ -68,12 +72,12 @@ const updateUser = async (req, res) => {
 
     try {
         const user = await User.findByPk(id);
-        
+        if (!user) return res.status(404).json({message: 'The user does not exist.'})
         user.set(req.body);
         if (user.password) user.password = await bcrypt.hash(user.password, 12);
         await user.save();
         delete user.dataValues.password;
-        res.json(user);
+        res.status(200).json(user);
 
     } catch (error) {
         return res.status(500).json({message: error.message})
@@ -81,6 +85,7 @@ const updateUser = async (req, res) => {
 
 }
 
+// DELETE
 const deleteUser = async (req, res) => {
 
     const { id } = req.params;

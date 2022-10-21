@@ -175,6 +175,9 @@
                   
                 }
               }
+            },
+            "500":{
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -315,6 +318,9 @@
                 }
               }
             },
+            "403": {
+              "description":"You're not authorized to complete this action."
+            },
             "404": {
               "description": "The product does not exist."
             },
@@ -351,6 +357,9 @@
             "200":{
               "description": "The item was succesfully removed."
             },
+            "403": {
+              "description":"You're not authorized to complete this action."
+            },
             "404":{
               "description": "The item does not exist."
             },
@@ -384,6 +393,9 @@
                   }
                 }
               }
+            },
+            "500": {
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -419,6 +431,9 @@
                 }
                 
               }
+            },
+            "403": {
+              "description":"You're not authorized to complete this action."
             },
             "500": {
               "description": "An unexpected error has happened on the server."
@@ -553,6 +568,12 @@
             "204":{
               "description": "The customer was deleted successfully."
             },
+            "403": {
+              "description":"You're not authorized to complete this action."
+            },
+            "404": {
+              "description":"The customer does not exist."
+            },
             "500":{
               "description": "An unexpected error has happened on the server."
             }
@@ -582,6 +603,9 @@
                   }
                 }
               }
+            },
+            "500": {
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -626,6 +650,9 @@
                 }
                 
               }
+            },
+            "403": {
+              "description":"You're not authorized to complete this action."
             },
             "500": {
               "description": "An unexpected error has happened on the server."
@@ -729,6 +756,9 @@
                 }
               }
             },
+            "403": {
+              "description":"You're not authorized to complete this action."
+            },
             "404": {
               "description": "The order was not found."
             },
@@ -762,6 +792,12 @@
           "responses": {
             "204":{
               "description": "The transaction was deleted successfully."
+            },
+            "403": {
+              "description": "You're not authorized to complete this action."
+            },
+            "404": {
+              "description": "The order does not exist."
             },
             "500":{
               "description": "Unexpected error."
@@ -799,6 +835,12 @@
                   }]
                 }
               }
+            },
+            "403": {
+              "description": "You're not authorized to complete this action."
+            },
+            "500": {
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -832,6 +874,9 @@
                 }
                 
               }
+            },
+            "403": {
+              "description": "You're not authorized to complete this action."
             },
             "500": {
               "description": "An unexpected error has happened on the server."
@@ -877,6 +922,9 @@
                   }
                 }
               }
+            },
+            "403": {
+              "description": "You're not authorized to complete this action."
             },
             "404": {
               "description": "The user was not found."
@@ -935,6 +983,9 @@
                 }
               }
             },
+            "403": {
+              "description": "You're not authorized to complete this action."
+            },
             "404": {
               "description": "The entered user does not exist."
             },
@@ -967,6 +1018,9 @@
           "responses": {
             "200":{
               "description": "The user was succesfully removed."
+            },
+            "403": {
+              "description": "You're not authorized to complete this action."
             },
             "404":{
               "description": "The user does not exist."
