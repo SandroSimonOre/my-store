@@ -630,8 +630,8 @@
                 
               }
             },
-            "405": {
-              "description": "Invalid input"
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -670,11 +670,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
             "404": {
-              "description": "Account not found"
+              "description": "The order was not found."
+            },
+            "500":{
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -732,14 +732,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid transaction Id supplied"
-            },
             "404": {
-              "description": "Transaction not found"
+              "description": "The order was not found."
             },
-            "405": {
-              "description": "Validation exception"
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -839,8 +836,8 @@
                 
               }
             },
-            "405": {
-              "description": "Invalid input"
+            "500": {
+              "description": "An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -884,11 +881,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid ID supplied"
-            },
             "404": {
-              "description": "Account not found"
+              "description": "The user was not found."
+            },
+            "500": {
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
@@ -932,7 +929,7 @@
           },
           "responses": {
             "200": {
-              "description": "Successful operation",
+              "description": "Successful operation.",
               "content": {
                 "application/json": {
                   "schema": {
@@ -941,14 +938,11 @@
                 }
               }
             },
-            "400": {
-              "description": "Invalid account code supplied"
-            },
             "404": {
-              "description": "Account not found"
+              "description": "The entered user does not exist."
             },
-            "405": {
-              "description": "Validation exception"
+            "500": {
+              "description":"An unexpected error has happened on the server."
             }
           },
           "security": [
