@@ -1,0 +1,22 @@
+en este video voy a explicar de manera muy rápida como usar esta página.
+
+Antes que nada, aclarar que una pagina de este tipo está orientada a ayudar a los usuario de la API mostrando las rutas disponibles, los accesos necesarios, de qué forma se debe ingresar la información, y que resultado se espera recibir luego de ejecutar cada ruta.
+
+Por lo tanto no está orientado al usuario final. Un usuario normal no va generar pedidos, crear productos o clientes a través de esta página. Para ello es necesario crear una aplicación frontend que es la que va a interactuar con la API.
+
+Pero para poder construir ese frontend es necesario saber previamente las tutas que el programador tiene a su disposicion.
+
+Dicho esto, pasaré a explicar.
+
+Lo que ven aquí es la documentación de  la API de una tienda ficticia o store.
+
+Para acceder a cada una de las rutas ofrecida por la API es necesario autenticarse. Una vez autenticado las rutas estarán o no disponibles segú el rol del usuario.
+
+En este caso he creado un usuario jperez con el password 123456, el cual tiene acceso solo para consultar información en ciertas rutas.
+
+Todas las que dicen guest (invitado).
+
+voy a hacer un ejemplo:
+1) Debemos autenticarnos, para ello vamos a esta primera ruta auth login y hacemos clic sobre ella. vemos que se expande. Luego hacemos clic en el boton Try Out. Nos desplazamos un poco hacia abajo. Vemos que ya tenemos por default el usuario y la contraseña que les comenté antes. Entonces solo nos queda dar clic en Execute. Vemos que la API nos responde con un token. Copiamos ese token para utilizarlo en el siguiente paso. Les recomiendo guardarlo en un bloc de notas para no tener que solicitarlo otra vez.
+
+2) 

@@ -20,7 +20,7 @@ const handleLogin = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24
     }, config.jwtSecret);
 
-    return res.status(200).json({success : true, token});
+    return res.status(200).json({token});
     /*
     res.header('Authorization', token).json(
         { 
