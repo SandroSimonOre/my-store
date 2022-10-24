@@ -75,7 +75,7 @@ const deleteProduct = async (req, res) => {
     try {
         const result = await Product.destroy({ where: { id } });
         
-        if (result === 1 ) return res.status(200).json({message: `The item with id ${id} was succesfully removed.`});
+        if (result === 1 ) return res.send(204);
         if (result === 0 ) return res.status(404).json({message: `The item with id ${id} does not exist.`});
     
     } catch (error) {

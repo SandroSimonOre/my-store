@@ -132,7 +132,7 @@ const deleteOrder = async (req, res) => {
         
         if (result === 1 ) {
             await t.commit();
-            return res.status(204).json({message: `The order ${id} was successfully removed.`});
+            return res.send(204);
         }
     
     } catch (error) {

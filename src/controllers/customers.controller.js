@@ -91,7 +91,7 @@ const deleteCustomer = async (req, res) => {
         // Only 'admin' or the owner are able to remove a customer.
         if (role === 'admin') {
             const result = await Customer.destroy({ where: { id } });
-            if (result === 1) return res.status(204).json({message: `The customer with id ${id} was successfully removed.`});
+            if (result === 1) return res.send(204);
             if (result === 0) return res.status(404).json({message: `The customer with id ${id} does not exist.`});
         } else {
             return res.status(403).json({message: 'You should have the admin role to complete this action.'});            

@@ -354,18 +354,10 @@
             }
           ],
           "responses": {
-            "200":{
-              "description": "The item was succesfully removed."
-            },
-            "403": {
-              "description":"You're not authorized to complete this action."
-            },
-            "404":{
-              "description": "The item does not exist."
-            },
-            "500":{
-              "description": "An unexpected error has happened on the server."
-            }
+            "204":{ "description": "The item was succesfully removed." },
+            "403": { "description":"You're not authorized to complete this action." },
+            "404":{ "description": "The item does not exist." },
+            "500":{ "description": "An unexpected error has happened on the server." }
           },
           "security": [
             { "storeAuth": [] }
@@ -1016,7 +1008,7 @@
             }
           ],
           "responses": {
-            "200":{
+            "204":{
               "description": "The user was succesfully removed."
             },
             "403": {
