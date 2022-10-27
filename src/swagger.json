@@ -407,6 +407,12 @@
               "application/json": {
                 "schema": {
                   "$ref":"#/components/schemas/Customer"
+                },
+                "example": {
+                  "id": "99999999",
+                  "email": "plegua@gmail.com",
+                  "firstName": "PAOLA",
+                  "lastName": "LEGUA"
                 }
               }
             },

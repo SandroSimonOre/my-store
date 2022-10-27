@@ -70,12 +70,12 @@ const deleteProduct = async (req, res) => {
     const { role } = req.userInfo;
 
     // Only users with the 'admin' role can remove products from the database.
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
         
     try {
         const result = await Product.destroy({ where: { id } });
         
-        if (result === 1 ) return res.send(204);
+        if (result === 1 ) return res.sendStatus(204);
         if (result === 0 ) return res.status(404).json({message: `The item with id ${id} does not exist.`});
     
     } catch (error) {

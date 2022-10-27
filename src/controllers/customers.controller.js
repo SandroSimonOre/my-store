@@ -19,7 +19,7 @@ const createCustomer =  async (req, res) => {
     const { sub, role } = req.userInfo;
 
     // Users with the guest role should not be able to create customers
-    if (role !== 'admin' && role !== 'seller') return res.status(403).json({message: 'You do not have authorization for this action.'});
+    if (role !== 'admin' && role !== 'seller') return res.status(403).json({message: 'Your role does not allow to complete this action.'});
     
     try {
         const { id, email, firstName, lastName } = req.body;
@@ -71,7 +71,7 @@ const updateCustomer = async (req, res) => {
             await customer.save();
             res.status(200).json(customer);
         } else {
-            return res.status(403).json({message: 'You should be an admin or the resource owner to do this action.'})
+            return res.status(403).json({message: 'You should be an admin or the entity owner to complete this action.'})
         }
         
     } catch (error) {
@@ -91,10 +91,10 @@ const deleteCustomer = async (req, res) => {
         // Only 'admin' or the owner are able to remove a customer.
         if (role === 'admin') {
             const result = await Customer.destroy({ where: { id } });
-            if (result === 1) return res.send(204);
+            if (result === 1) return res.sendStatus(204);
             if (result === 0) return res.status(404).json({message: `The customer with id ${id} does not exist.`});
         } else {
-            return res.status(403).json({message: 'You should have the admin role to complete this action.'});            
+            return res.status(403).json({message: 'You should be an admin to complete this action.'});            
         }
         
     } catch (error) {

@@ -20,7 +20,7 @@ const createOrder =  async (req, res) => {
     const { sub, role } = req.userInfo;
     
     // Only users with role 'admin' or 'seller are able to create orders
-    if (role !== 'admin' && role !== 'seller') return res.status(403).json({message: 'You cannot create orders'});
+    if (role !== 'admin' && role !== 'seller') return res.status(403).json({message: 'Only users with the admin or seller role can complete this action.'});
     
     const t = await sequelize.transaction();
     try {
@@ -99,7 +99,7 @@ const updateOrder = async (req, res) => {
             res.status(200).json(await Order.findByPk(id, {include: Item}));
             
         } else {
-            return res.status(403).json({message: 'You do not have the proper role to complete this action.'});
+            return res.status(403).json({message: 'You should be an admin or the entity owner to complete this action.'});
         }
         
     } catch (error) {
@@ -122,7 +122,7 @@ const deleteOrder = async (req, res) => {
     if (!order) return res.status(404).json({message: `The order ${id} does not exist.`});
     
     // Only the owner of the order or a user with the 'admin' role can remove an order.
-    if (order.salespersonId !== sub && role !== 'admin') return res.status(403).json({message: 'You are not authorized to perform this action.'});
+    if (order.salespersonId !== sub && role !== 'admin') return res.status(403).json({message: 'You should be an admin or the entity owner to complete this action.'});
 
     const t = await sequelize.transaction();
     try {
@@ -132,7 +132,7 @@ const deleteOrder = async (req, res) => {
         
         if (result === 1 ) {
             await t.commit();
-            return res.send(204);
+            return res.sendStatus(204);
         }
     
     } catch (error) {

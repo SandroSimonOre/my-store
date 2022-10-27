@@ -20,7 +20,7 @@ const createUser =  async (req, res) => {
 
     const { role } = req.userInfo;
 
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
     
     try {
         const { id, role, password, email, firstName, lastName } = req.body;
@@ -68,7 +68,7 @@ const updateUser = async (req, res) => {
     const { id } = req.params;
     const { sub, role } = req.userInfo;
 
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
 
     try {
         const user = await User.findByPk(id);
@@ -92,13 +92,12 @@ const deleteUser = async (req, res) => {
     const { sub, role } = req.userInfo;
     
     // Only users with de 'admin' rol can remove anothers users.
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
 
     try {
         const result = await User.destroy({ where: { id } });
         
-        //if (result === 1 ) return res.status(200).json({message: `The user ${id} was succesfully removed.`});
-        if (result === 1 ) return res.send(204);
+        if (result === 1 ) return res.sendStatus(204);
         if (result === 0 ) return res.status(404).json({message: `The user ${id} does not exist.`});
     
     } catch (error) {
