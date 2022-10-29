@@ -15,7 +15,7 @@ const createProduct =  async (req, res) => {
     
     const { role } = req.userInfo;
 
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
 
     try {
         const { id, description, uom, stock, lastPrice, suggestedPrice } = req.body;
@@ -49,7 +49,7 @@ const updateProduct = async (req, res) => {
     const { id } = req.params;
     const { role } = req.userInfo;
 
-    if (role !== 'admin') return res.status(403).json({message: 'You are not an admin.'});
+    if (role !== 'admin') return res.status(403).json({message: 'You should be an admin to complete this action.'});
 
     try {
         const product = await Product.findByPk(id);
